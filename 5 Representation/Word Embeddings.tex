@@ -1,0 +1,744 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Word Embeddings},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Word Embeddings}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+Word embeddings are \textbf{dense vectors} that capture semantic and
+syntactic word relationships by mapping words to a continuous vector
+space. Unlike sparse representations (e.g., BoW or TF-IDF), embeddings
+are trained to place similar words closer together in this space.
+
+\hypertarget{key-properties}{%
+\subsubsection{\texorpdfstring{\textbf{Key
+Properties}}{Key Properties}}\label{key-properties}}
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Dimensionality Reduction}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Compresses words into dense vectors (typically 50--300 dimensions
+    vs. thousands in BoW).
+  \end{itemize}
+\item
+  \textbf{Distributional Learning}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Follows the \emph{distributional hypothesis} (like matrix methods)
+    but uses neural networks to encode patterns.
+  \end{itemize}
+\item
+  \textbf{Semantic Regularities}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Captures analogies (e.g., \emph{king -- man + woman ≈ queen}) and
+    hierarchies (e.g., \emph{dog → animal}).
+  \end{itemize}
+\end{enumerate}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Method & Pros & Limitations \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{BoW/TF-IDF} & Simple, interpretable & Sparse, no word
+relationships \\
+\textbf{LSA/PPMI} & Captures global stats & Linear, ignores word
+order \\
+\textbf{Embeddings} & Dense, nonlinear, context-aware & Requires large
+data, less interpretable \\
+\end{longtable}
+
+\hypertarget{neural-vs.-count-based-approaches}{%
+\subsubsection{\texorpdfstring{\textbf{Neural vs. Count-Based
+Approaches}}{Neural vs. Count-Based Approaches}}\label{neural-vs.-count-based-approaches}}
+
+While \textbf{matrix factorisation} (e.g., LSA, PPMI) relies on
+co-occurrence statistics, neural embeddings (e.g., Word2Vec, GloVe)
+\textbf{predict words from contexts} (or vice versa), enabling:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Nonlinear relationships} (e.g., polysemy handling).
+\item
+  \textbf{Efficient similarity computation} (cosine distance).
+\item
+  \textbf{Transfer learning} (pre-trained embeddings for downstream
+  tasks).
+\end{itemize}
+
+\hypertarget{types-of-context}{%
+\subsubsection{\texorpdfstring{\textbf{Types of
+Context}}{Types of Context}}\label{types-of-context}}
+
+Embeddings can be trained using:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Window-based contexts} (Word2Vec: local neighbours).
+\item
+  \textbf{Global co-occurrence} (GloVe: whole-corpus statistics).
+\item
+  \textbf{Sub-word information} (FastText: character n-grams).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{evaluation}{%
+\section{Evaluation}\label{evaluation}}
+
+Intrinsic (Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean,
+"Efficient Estimation of Word Representations in Vector Space")
+
+\begin{itemize}
+\tightlist
+\item
+  8869 semantic and 10675 syntactic questions -- cosine similarity
+  between words
+\end{itemize}
+
+\textbf{1. Semantic-Syntactic Word Relationship Test Set}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Task Design}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Created a comprehensive test set with \textbf{8,869 semantic} and
+    \textbf{10,675 syntactic} questions.
+  \item
+    Examples:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \emph{Semantic}: "Athens is to Greece as Oslo is to Norway"
+      (capital cities).
+    \item
+      \emph{Syntactic}: "big is to bigger as small is to smaller"
+      (morphological patterns).
+    \end{itemize}
+  \end{itemize}
+\item
+  \textbf{Metric}:\\
+  - \textbf{Accuracy}: A question is correct only if the predicted word
+  (via vector arithmetic, e.g.,
+  vec("King")−vec("Man")+vec("Woman")≈vec("Queen")vec("King")−vec("Man")+vec("Woman")≈vec("Queen"))
+  exactly matches the ground truth. Synonyms are counted as errors.\\
+  \textbf{2. Word Similarity Tasks}
+\item
+  \textbf{Datasets}: Evaluated on standard benchmarks (e.g., WordSim353,
+  MEN) using \textbf{cosine similarity} between word vectors.
+\item
+  \textbf{Metric}: \textbf{Spearman's rank correlation} between model
+  rankings and human-judged similarity scores.\\
+  \textbf{3. Model Comparison}
+\item
+  \textbf{Baselines}: Compared against:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Traditional NNLM (Feed-forward and RNN-based).
+  \item
+    Publicly available word vectors (e.g., Collobert-Weston, Turian).
+  \end{itemize}
+\item
+  \textbf{Key Results}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Skip-gram outperformed CBOW on \textbf{semantic tasks} (55\% vs.
+    24\% accuracy).
+  \item
+    CBOW was better for \textbf{syntactic tasks} (64\% vs. 59\%).
+  \item
+    Both models surpassed NNLM and RNNLM in accuracy and training speed
+    (Table 3).\\
+    \textbf{4. Scaling Experiments}
+  \end{itemize}
+\item
+  \textbf{Training Data Impact}: Tested on subsets of Google News corpus
+  (24M to 6B words).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Findings: Larger data + higher dimensionality (d=300−1000d=300−1000)
+    improved accuracy, but with diminishing returns (Table 2).
+  \end{itemize}
+\item
+  \textbf{Efficiency}:\\
+  - CBOW trained faster (1 day for 6B words) vs. Skip-gram (3 days).\\
+  - Distributed training (DistBelief) scaled to \textbf{trillions of
+  words} (Table 6).\\
+  \textbf{5. Microsoft Sentence Completion Challenge}
+\item
+  \textbf{Task}: Predict missing words in sentences from 5 choices.
+\item
+  \textbf{Result}: Skip-gram alone achieved \textbf{48\% accuracy};
+  combined with RNNLM, reached \textbf{58.9\%} (new SOTA, Table 7).\\
+  \textbf{6. Qualitative Analysis}
+\item
+  \textbf{Vector Arithmetic}: Demonstrated relationships like:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    vec("Paris")−vec("France")+vec("Italy")≈vec("Rome")vec("Paris")−vec("France")+vec("Italy")≈vec("Rome").
+  \item
+    Analogies for grammar (e.g., verb tenses) and semantics (e.g.,
+    currencies).
+  \end{itemize}
+\end{itemize}
+
+Qualitative evaluation: \url{https://projector.tensorflow.org/}\\
+Extrinsic
+
+\begin{itemize}
+\tightlist
+\item
+  Ex. compare word embeddings and n-grams as input to a number of
+  downstream\\
+  tasks
+\end{itemize}
+
+\hypertarget{visualising-word-embeddings}{%
+\section{Visualising Word
+Embeddings}\label{visualising-word-embeddings}}
+
+\begin{itemize}
+\tightlist
+\item
+  Word embeddings can be used to visualise the meaning of a word by:
+\item
+  listing the words in V with highest cosine similarity with the word.
+\item
+  project the d dimensions of a word embedding down into 2 dimensions
+  (t-distributed stochastic neighbor embedding (t-SNE)).
+\end{itemize}
+
+\hypertarget{properties-and-types}{%
+\section{Properties and Types}\label{properties-and-types}}
+
+Ability to capture relational meanings.\\
+Can be used to solve anlogy provlems with a parallelogram model:\\
+\url{https://doi.org/10.1016/j.cognition.2020.104440}
+
+\hypertarget{diachronic-word-emebeddings}{%
+\paragraph{Diachronic Word
+Emebeddings}\label{diachronic-word-emebeddings}}
+
+\url{https://en.wikipedia.org/wiki/Orthogonal_Procrustes_problem}\strut \\
+Comparing embeddings trained on different but related data.\\
+same domain different time periods.\\
+Orthogonal Procrustes Problem: how to align embeddings into same space
+to be able to do meaningful comparisons.
+
+{}Where, Q is a transformation (rotation and alignment) matrix.\\
+Solution is {} where {} are from SVD decomposition of {}.
+
+\hypertarget{polysemous-word-embeddings}{%
+\paragraph{Polysemous Word
+Embeddings}\label{polysemous-word-embeddings}}
+
+Embeddings of words with mulitple meaings;\\
+Arora et al. ``Linear Algebraic Structure of Word Senses, with
+Applications to Polysemy''
+(\url{https://www.aclweb.org/anthology/Q18-1034.pdf})
+
+Shows that the resulting embeddings will be proportional to the sum of
+the embeddings of the various meanings.\\
+v(tie) =\textasciitilde{} a1v(tie1) + a2v(tie2) + a3v(tie3)\\
+where ai is proportional to the relative frequency of the meaning i\\
+• v(tie1) is a discourse atom (\textasciitilde topic)\\
+that can be learned (here represented\\
+by a set of representative words)
+
+Properties\\
+\textbf{Methods} (Word2Vec, GloVe, FastText, CBOW)
+
+\hypertarget{word2vec}{%
+\paragraph{Word2Vec}\label{word2vec}}
+
+Major acheivement:
+
+\begin{itemize}
+\tightlist
+\item
+  defining a learning problem without the need to annotate data manually
+  (overcomes major limiting factor for machine learning)
+\item
+  unlocks massive datasets
+\end{itemize}
+
+Train a classifier on a binary prediction task:
+
+\begin{itemize}
+\tightlist
+\item
+  Given a word {} predict if a word {} is in the context\\
+  - generating term-context {} pairs\\
+  Thus we want our classifier to estimate the following
+  probability:{}Whereby {}{}Assuming independence of context words we
+  can compute the log probability\\
+  {}
+\end{itemize}
+
+Learning function that maximising probability of context words and
+minimises non-context words\\
+\${}
+
+Training process: 1. treat target word and neighbouring context as
+positive examples 2. randomly sample other words in lexicon for negative
+samples 3. logistic regression to train classifier 4. use the learned
+weights as the embeddings Model perspective: - each word t in corpus has
+two d-dimensional representations totalling \$d*2\textbar V\textbar\$
+parameters - w - target words representation - c - context and noise
+word representation - final embedding form for word i: 1) \$w\_i +
+c\_i\$ 2) \$w\_i\$ Gradient of loss function: \$\$w\^{}\{t+1\} = w\^{}t
+- \textbackslash eta
+{[}\textbackslash sigma(c\_\{pos\}\textbackslash cdot
+w\^{}t)-1{]}c\_\{pos\} +
+\textbackslash sum\_\{i=1\}\^{}k{[}\textbackslash sigma(c\_\{neg\_i\}\textbackslash cdot
+w\^{}t){]}c\_\{neg\_i\}{]}\$\$ - \$w\^{}\{t+1\}\$, \$w\^{}t\$: next word
+to predict t+1 using current word t. - **η**: learning rate - **The
+bracketed term**: The gradient of the loss function with respect to the
+word vector. 1. positive pair (word t and neighbouring context):
+\$\textbackslash sigma(c\_\{pos\}\textbackslash cdot
+w\^{}t)-1{]}c\_\{pos\}\$ - cpos\hspace{0pt}: This is the vector
+representation of the positive context word. - wt⋅cpos\hspace{0pt}: This
+is the dot product between the target word vector and the positive
+context word vector. A higher dot product indicates greater similarity.
+- (σ(cpos\hspace{0pt}⋅wt)−1): Sigmoid to squash dot between 0 and 1.
+Ideally, for a true positive pair (which it should be since its real
+context), we want σ(cpos\hspace{0pt}⋅wt) to be close to 1. If
+it\textquotesingle s less than 1, this term will be negative, pushing
+the word vectors to become more similar. - The entire term
+(σ(cpos\hspace{0pt}⋅wt)−1)cpos\hspace{0pt} contributes to adjusting wt
+in the direction that increases its similarity with the positive context
+word cpos\hspace{0pt}. 2.
+**∑i=1k\hspace{0pt}σ(cnegi\hspace{0pt}\hspace{0pt}⋅wt)cnegi\hspace{0pt}\hspace{0pt}**:
+This part relates to the \_negative samples\_. - k: num negative
+hyperparamater samples - cnegi\hspace{0pt}\hspace{0pt}: This is the
+vector representation of the i-th negative context word (a word that is
+\_not\_ actually in the context of w). -
+wt⋅cnegi\hspace{0pt}\hspace{0pt}: This is the dot product between the
+target word vector and the i-th negative context word vector. -
+σ(cnegi\hspace{0pt}\hspace{0pt}⋅wt): This is the sigmoid output,
+representing the probability that cnegi\hspace{0pt}\hspace{0pt} is a
+context word for w. For negative samples, we want this probability to be
+close to 0. - The entire summation term contributes to adjusting wt in
+the direction that decreases its similarity with the negative context
+words cnegi\hspace{0pt}\hspace{0pt}. **More on Negative sampling:** For
+each positive pair (target word, context word), we create \$k\$
+(hyperparameter) negative pairs by randomly selecting a context word
+with probability \$P\_\textbackslash alpha(w)\$ (where
+\$\textbackslash alpha\$ is a hyperparameter, usually set to 0.75,
+increasing the probability of rare words). - The probability of
+selecting a word \$w\$ as a negative sample is given by:
+\$\$P\_\textbackslash alpha(w) =
+\textbackslash frac\{count(w)\^{}\textbackslash alpha\}\{\textbackslash sum\_\{w\textquotesingle{}
+\textbackslash in Vocabulary\}
+count(w\textquotesingle)\^{}\textbackslash alpha\}\$\$where -
+\$count(w)\$ is the frequency of word \$w\$ in the training corpus. -
+\$\textbackslash alpha\$ is a hyperparameter (typically 0.75). - The
+exponent \$\textbackslash alpha \textless{} 1\$ increases the
+probability of selecting rare words. - Reduces the computational cost by
+considering only a small number of negative examples instead of the
+entire vocabulary. **Obersations:** - Context words randomly sampled
+rfavouirng closer words with hyperparamter window size L - L changes the
+utility of our embeddings: - Small window size = semantically similar
+with the same positions - larger window size = topical relatedness -
+Pre-trained word embeddings are the most popular represenation for
+learning algoriths - be careful: bias may propagate throughout the
+system **Connection to matrix factorizaiton:** Skip-Gram with negative
+sampling model is connected to matrix factorization of C{[}1{]} : - Ci,j
+= PMI(i,j) -- log k - PMI of word i in context j - k is the number of
+negative examples sampled - We can use PPMI to avoid --infinite values
+when count(i, j)=0
+https://transacl.org/ojs/index.php/tacl/article/view/570/124 **Title:**
+Improving Distributional Similarity with Lessons Learned from Word
+Embeddings **Authors:** Omer Levy, Yoav Goldberg, Ido Dagan **Published
+in:** Transactions of the Association for Computational Linguistics
+(TACL), 2015 This work reshaped understanding of word embeddings by
+highlighting the importance of hyperparameters and enabling fairer
+comparisons between methods. \#\#\#\#\# **Key Contributions:** - The
+paper reveals that much of the performance gains attributed to neural
+word embeddings (e.g., Word2Vec, GloVe) stem from system design choices
+and hyperparameter optimisations, rather than the underlying algorithms.
+- The authors demonstrate that these optimizations (e.g., dynamic
+context windows, subsampling, negative sampling, and context
+distribution smoothing) can be applied to traditional count-based
+methods like PPMI and SVD, closing the performance gap between the two
+approaches. - When hyperparameters are properly tuned, count-based
+methods (PPMI, SVD) perform comparably to neural embeddings (SGNS,
+GloVe) on word similarity and analogy tasks. - Context distribution
+smoothing (a technique borrowed from Word2Vec) significantly improves
+PPMI by mitigating its bias toward rare word co-occurrences. - There is
+no consistent global advantage of neural embeddings over count-based
+methods when both are optimized. - **Practical Recommendations**: -
+Always use context distribution smoothing (cds=0.75) for PPMI/SVD. -
+Avoid the traditional SVD setup (eig=1); symmetric variants (eig=0 or
+0.5) perform better. - SGNS is a robust baseline due to its efficiency
+and competitive performance. \#\#\#\#\# **Contradictions to Prior
+Work**: - Challenges claims that neural embeddings universally
+outperform count-based methods (e.g., Baroni et al., 2014), showing that
+differences often arise from untuned hyperparameters in traditional
+methods. - Finds that GloVe does not outperform SGNS when both are
+fairly compared, contrary to Pennington et al. (2014). \#\#\#\#
+Fast-Text https://arxiv.org/pdf/1607.04606.pdf (https://fasttext.cc) A
+solution for learning word embeddings for languages with a rich
+morphological structure. This is done by computing representation for
+char n-grams + \textless{} for word beggning and \textgreater{} for word
+endings. Words are then the sum of the embeddings of the char n-grams
+comprosig it. n is a hyperparamater that is dependant on the language
+and the task. it also shows general improvements for syntatic analogy
+tasks on rare words. \#\#\#\# Glove *Pennigton et al. ``Glove: Global
+Vectors for Word Representation'' (2014)
+https://aclanthology.org/D14-1162.pdf Count-based model for learning
+word embeddings. Unlike the predictive methods like Skip-Gram and CBOW
+in Word2Vec, which learn embeddings by predicting context words or a
+target word, GloVe leverages the global co-occurrence statistics of
+words within a corpus. Initialises embeddings based on the global
+co-occurence statistics between words from the term-term matrix. **Ratio
+of Co-occurrence Probabilities** The fundamental intuition behind GloVe
+is that the ratios of word-word co-occurrence probabilities have the
+potential to encode meaning. For example, consider two target words,
+"ice" and "steam," and two context words, "solid" and "gas." - "ice" is
+expected to co-occur frequently with "solid" and infrequently with
+"gas." - "steam" is expected to co-occur frequently with "gas" and
+infrequently with "solid." - The ratio of co-occurrence probabilities
+\$\textbackslash frac\{P(solid \textbar{} ice)\}\{P(gas \textbar{}
+ice)\}\$ should be large. - The ratio of co-occurrence probabilities
+\$\textbackslash frac\{P(solid \textbar{} steam)\}\{P(gas \textbar{}
+steam)\}\$ should be small. - The ratio \$\textbackslash frac\{P(solid
+\textbar{} ice)\}\{P(solid \textbar{} steam)\}\$ should be large. - The
+ratio \$\textbackslash frac\{P(gas \textbar{} steam)\}\{P(gas \textbar{}
+ice)\}\$ should be large. GloVe aims to learn word vectors such that
+their dot product is related to the logarithm of these co-occurrence
+probabilities. **Methodology:** 1. **Constructing the Co-occurrence
+Matrix (X):** - GloVe first scans the entire corpus to build a large
+word-word co-occurrence matrix \$X\$, where \$X\_\{ij\}\$ represents the
+number of times word \$j\$ appears in the context of word \$i\$ - The
+context is typically defined by a symmetric window around the target
+word. - A weighting function \$f(X\_\{ij\})\$ is often used to
+down-weight the contribution of very frequent co-occurrences, as these
+might be less informative. A common form for \$f(x)\$ is: \$\$f(x) =
+\textbackslash begin\{cases\} (x/x\_\{max\})\^{}\textbackslash alpha \&
+\textbackslash text\{if \} x \textless{} x\_\{max\}
+\textbackslash\textbackslash{} 1 \& \textbackslash text\{otherwise\}
+\textbackslash end\{cases\}
+
+\begin{verbatim}
+    where $x_{max}$ and $\alpha$ are hyperparameters.
+\end{verbatim}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item
+  \textbf{Defining the Loss Function:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Learn two sets of word vectors: {} (word vector of word {}) and {}
+    (context word vector of word {}).
+  \item
+    Minimise the following weighted least squares loss function:\\
+    {} where:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {} is the size of the vocabulary.
+    \item
+      {} and {} are bias terms associated with words {} and {},
+      respectively.
+    \item
+      The term {} comes from the idea of matching the dot product of
+      word vectors to the logarithm of the co-occurrence counts.
+    \end{itemize}
+  \end{itemize}
+\item
+  Train with SGD.
+\item
+  \textbf{Final Embeddings:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    same as Word2Vec
+  \item
+    After training, the final word embedding for a word {} is typically
+    obtained by summing its word vector and its context word vector: {},
+    or simply using {}
+  \end{itemize}
+\end{enumerate}
+
+\textbf{Advantages of GloVe:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Leverages Global Statistics:} Directly using the co-occurrence
+  matrix global relationships between words are captured, local context
+  window methods might miss broader semantic connections.
+\item
+  \textbf{Strong Empirical Performance:} Often competitive with or
+  superior to Word2Vec models.
+\end{itemize}
+
+\textbf{Disadvantages:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Computational Cost of Co-occurrence Matrix:} Building the
+  co-occurrence matrix can be computationally expensive for very large
+  corpora.
+\item
+  \textbf{Less Flexibility with Context:} Unlike Word2Vec, where the
+  context window can be adjusted during training, the co-occurrence
+  statistics in GloVe are pre-computed based on a fixed window size.
+\end{itemize}
+
+\hypertarget{continuous-bag-of-words-model-cbow}{%
+\paragraph{Continuous Bag of Words model
+(CBOW)}\label{continuous-bag-of-words-model-cbow}}
+
+The Continuous Bag of Words (CBOW) model employs a sliding window
+training technique. The window consists of a central target word and its
+surrounding context words (both forward and backward).
+
+At each training step, the model predicts the probability distribution
+of the centre word given its context. The model parameters are then
+updated using Stochastic Gradient Descent (SGD).
+
+CBOW is typically implemented as a fully connected feed-forward neural
+network with the following key hyperparameters:
+
+\begin{itemize}
+\tightlist
+\item
+  {}: Word embedding size. This dimension also implicitly influences the
+  effective context window size considered during training.
+\end{itemize}
+
+The network architecture involves:
+
+\begin{itemize}
+\tightlist
+\item
+  An input layer representing the context words.
+\item
+  One or more hidden layers with a non-linear activation function,
+  commonly Rectified Linear Unit (ReLU):\\
+  {}
+\item
+  An output layer that produces a probability distribution over the
+  entire vocabulary using the softmax function:\\
+  {}where {} is the output vector from the previous layer and {} is the
+  vocabulary size.
+\end{itemize}
+
+The model is trained by minimizing the cross-entropy loss function,
+which measures the dissimilarity between the predicted probability
+distribution and the one-hot encoded representation of the actual center
+word. The cross-entropy loss {} for a single training example is given
+by:\\
+{}where {} is the one-hot encoded target word and {} is the predicted
+probability distribution.
+
+The input to the model consists of the context words. The center word is
+represented as a one-hot encoded vector. The context word vector used as
+input to the neural network is typically the average of the one-hot
+encoded vectors of all the context words within the sliding window.
+
+Thus, \textbf{word order within the context is not explicitly modelled},
+similar to the Bag-of-Words (BoW) approach.
+
+The weight matrices of the neural network learn the word embeddings:
+
+\begin{enumerate}
+\tightlist
+\item
+  Each column of the first weight matrix, {}, represents the input
+  embedding vector of the corresponding word in the vocabulary (where {}
+  is the vocabulary size).
+\item
+  Each row of the second weight matrix, {}, represents the output
+  embedding vector of the corresponding word in the vocabulary.
+\item
+  The final word embedding for each word is often taken as the average
+  of its input embedding (from {}) and the transpose of its output
+  embedding (from {}).
+\end{enumerate}
+
+\hypertarget{other-methods}{%
+\paragraph{Other Methods}\label{other-methods}}
+
+\begin{itemize}
+\item
+  \textbf{WordNet}: A manually curated lexical database that groups
+  words into sets of synonyms (synsets), provides short, general
+  definitions (glosses), and records various semantic relations between
+  these synsets.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Limitation}: WordNet is often incomplete for most real-world
+    applications due to the vastness and dynamic nature of language.
+  \end{itemize}
+\item
+  \textbf{First-Order Logic (FOL)} (Eisenstein 12.2): A formal system of
+  symbolic logic used in mathematics, philosophy, linguistics, and
+  computer science. It extends propositional logic by allowing
+  quantification over objects and the use of predicates to express
+  properties and relations.
+
+  \begin{itemize}
+  \item
+    \textbf{Proposition}: A declarative sentence that can be either true
+    or false and is associated with a truth value.
+  \item
+    \textbf{Denotation of a proposition}: The set of all equivalent
+    forms of a proposition that share the same truth value.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Example: {} (all denote the truth value
+      \textquotesingle true\textquotesingle{} if interpreted as
+      mathematical equalities).
+    \end{itemize}
+  \item
+    \textbf{Boolean operators}: Logical connectives that combine
+    propositions to form more complex propositions (e.g., and ({}), or
+    ({}), not ({}), implication ({}), equivalence ({})).
+  \item
+    \textbf{Quantifiers}: Symbols that express the extent to which a
+    predicate is true over a range of elements:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \textbf{Universal quantifier}: "For all" ({}).
+    \item
+      \textbf{Existential quantifier}: "There exists" ({}).
+    \end{itemize}
+  \item
+    \textbf{Constants, variables, and relations}: The basic building
+    blocks of FOL:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \textbf{Constants}: Symbols that represent specific objects (e.g.,
+      Italy, Rome).
+    \item
+      \textbf{Variables}: Symbols that can represent any object in the
+      domain of discourse (e.g., {}, {}).
+    \item
+      \textbf{Relations (Predicates)}: Symbols that express
+      relationships between objects or properties of objects (e.g.,
+      Capital({}, {}), is\_a({}, country)).
+    \end{itemize}
+  \item
+    \textbf{Example of a relation represented as a set of tuples}:\\
+    {} This relation represents the capital city of each country in the
+    set.
+  \item
+    \textbf{Inference and discovery of new facts}: First-order logic
+    provides a formal framework for making logical inferences based on
+    existing knowledge, allowing for the derivation and discovery of new
+    facts that are logically entailed by the initial set of axioms and
+    rules.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Optimization} (Negative sampling, hierarchical softmax)\\
+\textbf{Evaluation} (Intrinsic/extrinsic tasks)
+
+\end{document}
