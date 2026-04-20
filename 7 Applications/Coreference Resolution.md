@@ -14,11 +14,11 @@ Language is interpreted through a ***discourse model***. Built incrementally whe
 
 The first mention of an entity is an *evocation*; the entity is *evoked* into the model. Subsequent mentions the representation is *accessed* from the model, this subsequent mention is an *anaphora* as it *corefers* to a previous mention called the *antecedent*.
 
-Coreference is an important component of NLP, and is useful for many downstreak tasks
+Coreference is an important component of NLP, and is useful for many downstream tasks:
 
-- A dialogue system that has just told the user “There is a 2pm flight on United and a 4pm one on Cathay Pacific” must know which flight the user means by “I’ll take the second one”.
-- question answering system that uses Wikipedia to answer a question about Marie Curie must know who she was in the sentence “She was born in War-saw”
-- machine translation system translating from a language like Spanish, in which pronouns can be dropped, must use coreference from the previous sentence to decide whether the Spanish sentence ‘“Me encanta el conocimiento”, dice.’ should be translated as ‘“I love knowledge”, he says’, or ‘“I love knowledge”, she says’.
+- A dialogue system that has just told the user "There is a 2pm flight on United and a 4pm one on Cathay Pacific" must know which flight the user means by "I'll take the second one".
+- A question answering system that uses Wikipedia to answer a question about Marie Curie must know who she was in the sentence "She was born in Warsaw".
+- A machine translation system translating from a language like Spanish, in which pronouns can be dropped, must use coreference from the previous sentence to decide whether the Spanish sentence '"Me encanta el conocimiento", dice.' should be translated as '"I love knowledge", he says', or '"I love knowledge", she says'.
 
 Summary:
 
@@ -115,27 +115,34 @@ Summary:
 - The selectional restrictions that a verb places on its arguments can help eliminate referents:
     - (23.42) I ate the soup in my new bowl after cooking **it** for hours. (There are two possible referents for "it": "the soup" and "the bowl". The verb "eat", however, requires its direct object to denote something edible, ruling out "bowl" as a possible referent.)
 
-## Complications:
+## Complications
 
-• Pronouns may not refer to entities
-• They told me that I was too ugly for show business, but I
-didn’t believe [it]
-• Elisa saw Berthold get angry, and I saw [it] too
-• Pronouns may have generic referents
-• On the moon, [you] have to carry [your] own oxygen
-• A poor carpenter blames [her] tools
-• Pronouns may not refer to anything
-• It’s raining
-• You can make [it] in showbiz.
-• Non referential pronouns (and NPs) complicate the task
+Coreference resolution faces several challenges due to the varied behaviour of pronouns in natural language:
 
-• How to distinguish between
-• You can make [it] in showbiz
-• You can make [it] in advance
-• Checking the distributional statistics of similar pronouns in the
-same context
-• You can make [them] in advance
-• You can make [them] in showbiz
+**Non-Referential Pronouns:** Pronouns do not always refer to specific entities. Consider these examples:
+
+- "They told me that I was too ugly for show business, but I didn't believe **[it]**." (Here "it" refers to the entire proposition, not an entity.)
+- "Elisa saw Berthold get angry, and I saw **[it]** too." ("it" again refers to the event, not a concrete referent.)
+
+**Generic Referents:** Some pronouns have generic, non-specific referents:
+
+- "On the moon, **[you]** have to carry **[your]** own oxygen." (The pronoun "you" refers to people in general, not a specific individual.)
+- "A poor carpenter blames **[her]** tools." (Generic reference to any carpenter.)
+
+**Expletive Pronouns:** In some cases, pronouns do not refer to anything at all:
+
+- "**It's** raining." (Expletive "it" with no referent.)
+- "You can make **[it]** in showbiz." (Idiomatic usage where "it" has no clear antecedent.)
+
+**Disambiguation Challenge:** Distinguishing between these different uses of pronouns is critical. For example:
+
+- "You can make **[it]** in showbiz." (idiomatic, non-referential)
+- "You can make **[it]** in advance." (referential, likely referring to a specific object)
+
+One approach to this disambiguation is checking the distributional statistics of similar pronouns in the same context. For instance, examining whether substituting "them" for "it" yields sensible sentences can help:
+
+- "You can make **[them]** in advance." (✓ sensible)
+- "You can make **[them]** in showbiz." (✗ nonsensical)
 
 ## Coreference Learning Task
 
@@ -175,12 +182,12 @@ Example:
 ## Datasets
 
 - OntoNotes: Chinese and English coreference datasets
-	- roughly one million words each, consisting of newswire, magazine articles, broadcast news, broadcast conversations, web data and conversational speech data.
-	- 300,000 words of annotated Arabic newswire
-	- it does not label singletons (making the task easier)
+  - roughly one million words each, consisting of newswire, magazine articles, broadcast news, broadcast conversations, web data and conversational speech data.
+  - 300,000 words of annotated Arabic newswire
+  - it does not label singletons (making the task easier)
 - The ARRAU corpus contains 350,000 words of English
-	- includes singletons
-	- diverse genres like dialog and fiction
+  - includes singletons
+  - diverse genres like dialog and fiction
 
 ## Algorithms
 
@@ -196,9 +203,9 @@ This phase involves pinpointing all the text segments that refer to an entity. A
 **Heuristics for Mention Identification:**
 
 -   **Initial Consideration:**
-	- all noun phrases (NPs) and named entities are considered as potential mentions. Sometimes, even all n-grams (sequences of n words) are included to ensure comprehensive capture.
+  - all noun phrases (NPs) and named entities are considered as potential mentions. Sometimes, even all n-grams (sequences of n words) are included to ensure comprehensive capture.
 -   **Filtering:**
-	- Once potential mentions are identified, certain types are filtered out, such as:
+  - Once potential mentions are identified, certain types are filtered out, such as:
 	    -  Nested NPs with the same head (e.g., "Apple CEO [Tim Cook]," where "Tim Cook" is the head and "Apple CEO" is nested).
 	    -   Numerical entities that don't refer to a distinct entity.
 	    -   Non-referential pronouns (e.g., the "it" in "It is raining").
@@ -325,7 +332,7 @@ To reduce the high computational complexity of considering all possible grouping
     -   The individual representations of span *i* and span *j*.
     -   A combined representation that captures the interaction or relationship between the two spans.
 
--   **Score Normalization:** The coreference scores *s*(*i*, *j*) for each potential antecedent *j* of a given span *i* are typically normalized (e.g., using a softmax function) to obtain probabilities that sum to 1, representing the likelihood of *j* being the antecedent for *i* among all candidates.
+-   **Score Normalisation:** The coreference scores *s*(*i*, *j*) for each potential antecedent *j* of a given span *i* are typically normalised (e.g., using a softmax function) to obtain probabilities that sum to 1, representing the likelihood of *j* being the antecedent for *i* among all candidates.
 
 $$ \frac{exp(s(i,j))}{\sum_jexp(s(i,j))} $$
 
@@ -347,4 +354,4 @@ To compute *m*() and *c*() (mention probability and antecedent compatibility), w
 -   **No Antecedent ($\epsilon$):** The model also considers a special "null" antecedent, $\epsilon$, which represents the case where the current span does not corefer with any preceding mention (i.e., it's a new entity).
 
 ![[Pasted image 20250615202454.png]]
-Given all the normalized scores, an antecedent is selected for each mention. Finally, a **transitive closure** of all these selected antecedent-mention pairs is performed to derive the final coreference clusters.
+Given all the normalised scores, an antecedent is selected for each mention. Finally, a **transitive closure** of all these selected antecedent-mention pairs is performed to derive the final coreference clusters.

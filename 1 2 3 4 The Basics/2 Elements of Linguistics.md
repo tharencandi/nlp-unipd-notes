@@ -53,18 +53,18 @@ Form → Meaning Pipeline
   - **Lemma**: Canonical form of a lexeme
   - **Ambiguity**: A lemma with multiple meanings
   - **Lexical Relations**:
-	  - Homonymy
-		  - same spelling (different word) different meaning (bat v bat)
-	  - Polysemy
-		  - same word multiple meanings (foot of a person foot of a mountain)
-	  - Synonymy
-		  - different words same meaning
-	  - Antonymy
-		  - opposite meanings
-	  - Hyponymy
-		  - A more specific than B
-	  - Hypernymy
-		  - A more general than B
+    - Homonymy
+      - same spelling (different word) different meaning (bat v bat)
+    - Polysemy
+      - same word multiple meanings (foot of a person foot of a mountain)
+    - Synonymy
+      - different words same meaning
+    - Antonymy
+      - opposite meanings
+    - Hyponymy
+      - A more specific than B
+    - Hypernymy
+      - A more general than B
 - **NLP Applications**:
   - Word sense disambiguation
   - Semantic role labeling (SRL)
@@ -75,14 +75,14 @@ Form → Meaning Pipeline
 - We have seen synonymity
 - Words are related in different ways
 - Propositional meaning equivalence: if replacing one word with another, the truth condition of any sentence does not change
-- Hypernymy (supertype, i.e. color -> green), antonymy (opposite meaning)
+- Hypernymy (supertype, i.e. colour → green), antonymy (opposite meaning)
 - Co-participation in an event: coffee and cup
 - semantic field: house (door, roof, kitchen, family, bed)
 - semantic frame: a set of words that denote perspectives in an event (buyer, seller)
 - connotation: a set of words referring to the same emotion (positive, i.e. happy)
-	- valence - the pleasantness of the stimulus (satisfied, annoyed)
-	- arousal - the intensity of emotion (excited, calm)
-	- dominance - how submissive (anger, boredom)
+  - valence - the pleasantness of the stimulus (satisfied, annoyed)
+  - arousal - the intensity of emotion (excited, calm)
+  - dominance - how submissive (anger, boredom)
 
 ## Pragmatics
 

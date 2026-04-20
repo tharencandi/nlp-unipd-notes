@@ -218,7 +218,7 @@ Hidden layer with **cube activation**: $g(x) = x^3$
   $$ p = \text{softmax}(W_2 h) $$
 
 #####  Motivation for Cube Activation
-Allows modeling of 3-way feature interactions:
+Allows modelling of 3-way feature interactions:
 
 - Can approximate feature conjunctions like (POS of s1, POS of s2, POS of b1)
 - Empirically outperforms tanh and sigmoid in UAS and LAS

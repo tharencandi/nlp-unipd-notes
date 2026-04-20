@@ -103,13 +103,13 @@ Consistent generation with context may not always be forced with prompting.
 
 solutions:
 
-- Instruction Tuning: finetune on a courpus of instructions and questions with corresponding responses
+- Instruction Tuning: finetune on a corpus of instructions and questions with corresponding responses
 - Preference alignment (Human feedback reinforcement learning)
 	- this is what chat-GPT does.
-	- a separate model is trained to decide how much a candidate response aligns with human preferences which fine tunes the base model
+	- a separate model is trained to decide how much a candidate response aligns with human preferences which fine-tunes the base model
 
 #### Instruction Tuning
-A supervised learning techniuqe where:
+A supervised learning technique where:
 
 - training date is a set of instructions (pompts and input/output pairs)
 

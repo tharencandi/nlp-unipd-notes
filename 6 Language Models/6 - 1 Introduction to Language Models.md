@@ -8,9 +8,9 @@ Having established the foundational principles of distributional semantics and e
 Encoding textual units into numerical formats that capture aspects of their meaning and relationships based on their contextual distribution:
 
 - **Elementary Text Representations:**  **BoW**, **TF-IDF**, and **N-grams:**
-	- N-Grams extend beyond the limitations of BoW by considering contiguous sequences of _n_ linguistic units. Captures local contextual dependencies and rudimentary word order.
+  - N-Grams extend beyond the limitations of BoW by considering contiguous sequences of _n_ linguistic units. Captures local contextual dependencies and rudimentary word order.
 - **Dense Semantic Embeddings:**
-	- semantically similar words are positioned proximally in the vector space, facilitating enhanced generalisation and semantic understanding within NLP models.
+  - semantically similar words are positioned proximally in the vector space, facilitating enhanced generalisation and semantic understanding within NLP models.
 
 We now shift our focus from the static representation of linguistic units to the dynamic modelling of the probability of word sequences.
 

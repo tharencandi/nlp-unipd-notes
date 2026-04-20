@@ -50,9 +50,9 @@ process_file() {
     done
     
     # Process the file with multiple passes for better handling
-    # Pass 1: Convert Obsidian syntax
-    sed -e "s|!\[\[Pasted image \([^]]*\)\.png\]\]|![](${img_prefix}images/pasted-image-\1.png)|g" \
-        -e "s|!\[\[Pasted image \([^]]*\)\.jpg\]\]|![](${img_prefix}images/pasted-image-\1.jpg)|g" \
+    # Pass 1: Convert Obsidian syntax with image width constraints
+    sed -e "s|!\[\[Pasted image \([^]]*\)\.png\]\]|![](${img_prefix}images/pasted-image-\1.png){width=90%}|g" \
+        -e "s|!\[\[Pasted image \([^]]*\)\.jpg\]\]|![](${img_prefix}images/pasted-image-\1.jpg){width=90%}|g" \
         -e 's/\[\[\([^]|]*\)|\([^]]*\)\]\]/\2/g' \
         -e 's/\[\[\([^]]*\)\]\]/\1/g' \
         -e 's/^---$/\*\*\*/g' \
@@ -105,7 +105,6 @@ cd "$TEMP_DIR"
 
 # Create ordered list of files
 pandoc metadata.yaml \
-    index.qmd \
     "1 2 3 4 The Basics/2 Elements of Linguistics.md" \
     "1 2 3 4 The Basics/3 Learning Tasks, Pre-processing and Data Collection.md" \
     "1 2 3 4 The Basics/4 Text-Processing.md" \
@@ -131,7 +130,7 @@ pandoc metadata.yaml \
     "7 Applications/Sentiment Analysis.md" \
     "7 Applications/Sequence Labelling.md" \
     -o "../$OUTPUT_PDF" \
-    --from gfm+wikilinks_title_after_pipe+mark+lists_without_preceding_blankline+tex_math_gfm \
+    --from gfm+wikilinks_title_after_pipe \
     --wrap=none \
     --resource-path=".:./images" \
     --pdf-engine=xelatex \

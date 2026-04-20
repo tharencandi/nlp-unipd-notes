@@ -2,7 +2,7 @@
 
 ## Utility
 
-Sentiment Analysis is the task of identifying the emotional valence or subjective attitude in text. It is widely used in NLP and computational social science for modeling public opinion, emotional state, and attitudes.
+Sentiment Analysis is the task of identifying the emotional valence or subjective attitude in text. It is widely used in NLP and computational social science for modelling public opinion, emotional state, and attitudes.
 
 - Determine the attitude of people towards:
   - A brand, law, product, or public figure
@@ -11,7 +11,7 @@ Sentiment Analysis is the task of identifying the emotional valence or subjectiv
   - Summarising meetings
   - Detecting user frustration in dialogue systems
   - Finding emotionally charged parts of a conversation
-  - Modeling user personality (e.g., extroversion) for adaptive conversational agents
+  - Modelling user personality (e.g., extroversion) for adaptive conversational agents
 
 ---
 
@@ -164,7 +164,7 @@ Graph-based lexicon induction using seed word labels and word similarity:
 
 ## Supervised Learning of Lexicons
 
-Given labeled text (e.g., reviews with ratings), derive lexicon scores:
+Given labelled text (e.g., reviews with ratings), derive lexicon scores:
 
 - Example: associate words with 1-star or 10-star reviews
 - Compute:
@@ -172,7 +172,7 @@ Given labeled text (e.g., reviews with ratings), derive lexicon scores:
   P(w \mid c) = \frac{\text{count}(w, c)}{\sum_{w'} \text{count}(w', c)}
   $$
 
-- Normalize with:
+- Normalise with:
   $$
   \text{PottsScore}(w) = \frac{P(w \mid c)}{\sum_{c'} P(w \mid c')}
   $$
@@ -210,7 +210,7 @@ These features can be combined with:
 Assess the sentiment **towards a specific entity** rather than the full document.
 
 1. Identify entity mentions using NER, dependency parsing, or Semantic Role Labelling.
-2. Extract **contextualized embeddings** (e.g., BERT) for all mentions.
+2. Extract **contextualised embeddings** (e.g., BERT) for all mentions.
 3. Compute average embedding $\bar{E}$ per entity.
 4. Train regression models to map $\bar{E}$ to VAD scores.
 
@@ -263,5 +263,5 @@ Reference:
 | Semantic Axis               | Unsupervised domain adaptation                | Sensitive to seed choice                  |
 | Label Propagation           | Data-efficient, smooth generalization         | Graph construction and seed tuning needed |
 | Supervised Lexicon Learning | Data-driven, statistically grounded           | Needs annotated data                      |
-| Entity Sentiment            | Fine-grained control, contextualized          | Requires NER, coref, contextual models    |
+| Entity Sentiment            | Fine-grained control, contextualised          | Requires NER, coref, contextual models    |
 | Compositional Models        | Phrase-level semantics, captures modifiers    | Requires syntactic parses, complex models |

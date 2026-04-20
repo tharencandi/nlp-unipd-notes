@@ -62,7 +62,11 @@ where:
 
 **Remaning layers**
 
-$$h_t = g(We_t + b$$$$z_t = Uh_t$$$$\hat{y}_t = z_t$$
+$$h_t = g(We_t + b)$$
+
+$$z_t = Uh_t$$
+
+$$\hat{y}_t = z_t$$
 
 where
 

@@ -20,7 +20,7 @@ We begin with the classical paradigm. The task is straightforward in concept:
 1. **Preprocessing**:
 
    - Filter stop words (e.g., “the”, “of”, “is”)
-   - Tokenize and normalize text
+   - Tokenize and normalise text
 
 2. **Inverted Index Construction**:
 
@@ -402,7 +402,7 @@ ROUGE is a family of recall-focused metrics, widely used in **summarization** an
 
 #### BERTScore
 
-BERTScore leverages **contextualized token embeddings** to compute semantic similarity between hypothesis and reference text.
+BERTScore leverages **contextualised token embeddings** to compute semantic similarity between hypothesis and reference text.
 
 - For each token in hypothesis $x$ and reference $\hat{x}$, compute contextual embeddings using a pretrained BERT model.
 

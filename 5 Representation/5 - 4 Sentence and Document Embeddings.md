@@ -13,8 +13,13 @@ There are a plethora of downstream tasks that require more powerful representati
 ### Weighted Average
 For word embeddings of size k, for each of the n words in a sentence, we can apply a  function on such vectors.
 $$f(W) = s$$
+
 $$W : n \times k; s : 1 \times k$$
-The most simple is a weighted average function$$f(w_1,...,w_n) = \frac{1}{n} = \sum_iw_i$$
+
+The most simple is a weighted average function
+
+$$f(w_1,...,w_n) = \frac{1}{n} \sum_iw_i$$
+
 However - the meaning of a sentence is a *non-trivial* combination of the meaning of words, dependent on **order**. This representation cannot capture this meaning.
 
 ### BERT for sentence embeddings
@@ -37,7 +42,7 @@ Dai et Al - Semi-supervised Sequence learning
 - An Encoder-Decoder RNN to reproduce the input sentence as output.
 - reproduce sentence through a squeezed/compressed hidden representation minising information loss (standard autoencoder goal)
 - Unsupervised data allows for large dataset use.
-	- increased performance on sentiment analysis, text classification
+  - increased performance on sentiment analysis, text classification
 
 This idea has been extended to LSTM encoder-decoders by Kiros et all with **Skip-thought vectors**
 
@@ -75,13 +80,13 @@ $$L_{align} = E_{(x,x^+)\in pos} ||f(x)-f(x^+)||^2$$
 
  1. Wieting et al. “Towards Universal Paraphrastic Sentence Embeddings”
 
-	- use sentences in *Entailment* as positive labels
-	- use contradicting sentence as hard negatives (to push apart)
-		- the use of hard negatives improves 84.9 - > 86.2
-	-
+  - use sentences in *Entailment* as positive labels
+  - use contradicting sentence as hard negatives (to push apart)
+    - the use of hard negatives improves 84.9 - > 86.2
+  -
 
-		- use the data from the Paraphrase Database (about 3,033,753 phrase pairs) to train a number of models
-		- averaging word vectors still perform better than LSTM with this approach - why?
+    - use the data from the Paraphrase Database (about 3,033,753 phrase pairs) to train a number of models
+    - averaging word vectors still perform better than LSTM with this approach - why?
 
 Reimers et al. “Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks”
 **Sentence-BERT (SBERT)**
@@ -90,12 +95,12 @@ Reimers et al. “Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks
 - siamese network - shared weights for Sentence A and Sentence B BERT Models
 - pool mean output of all vectors
 - triplet loss
-	- why?
-	- Triplet loss: max(||sa − sp || − ||sa − sn|| + ϵ, 0) (left) or mean square error (right)
+  - why?
+  - Triplet loss: max(||sa − sp || − ||sa − sn|| + ϵ, 0) (left) or mean square error (right)
 
 2. machine translation for automatic generation of sentence pairing
-	1. if parallel data is available, pair sentence in target with translation
-	2. if no parallel data: translate then translate back
+  1. if parallel data is available, pair sentence in target with translation
+  2. if no parallel data: translate then translate back
 
 #### Unsupervised approach
 
@@ -122,7 +127,7 @@ Unlike sentence embeddings, where we care about detailed semantics. A majority o
 ### BoW
 
 - express a document as a weighted combination of word vectors
-	- down-weighing stop words
+  - down-weighing stop words
 - using different combinations of n-grams
 
 ### Compositional Approach
@@ -149,4 +154,4 @@ additional element to keep info on the full context
 - use paragraph matrices, with an averaging or concatenation process, for final classification.
 - another approach
 - https://www.aclweb.org/anthology/2020.acl-main.30.pdf
-- (Mekala et al., “Contextualized Weak Supervision for Text Classification”)
+- (Mekala et al., "Contextualised Weak Supervision for Text Classification")

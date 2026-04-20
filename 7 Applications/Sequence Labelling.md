@@ -198,7 +198,7 @@ While the **majority of word types** (around 85%) are unambiguous and appear wit
 
 A traditional baseline is the **majority class assignment**, where each word is assigned the most common tag it holds in the training corpus. This achieves high performance—approximately **92.34% accuracy** on the Wall Street Journal portion of the Penn Treebank when evaluated with Universal Dependencies.
 
-However, this baseline fails to generalize to unseen words or context-driven disambiguation.
+However, this baseline fails to generalise to unseen words or context-driven disambiguation.
 
 Modern PoS tagging systems, typically based on **neural architectures** such as BiLSTM or Transformer encoders, have achieved **human-level accuracy** on standard benchmarks. These models capture rich context through learned embeddings and attention, substantially outperforming symbolic or rule-based taggers.
 
@@ -222,7 +222,7 @@ $$
 That is, the probability of the current state depends **only on the previous state**, not the full sequence history. This assumption simplifies computation in sequence models.
 
 - A Markov chain is a directed graph where **nodes** represent states and **edges** represent state transitions.
-- **Edges are labeled with probabilities**, defining the likelihood of moving from one state to another.
+- **Edges are labelled with probabilities**, defining the likelihood of moving from one state to another.
 - A **starting probability distribution** (initial state distribution) is also needed to describe the system.
 - The **probability of a sequence of states** is the product of the transition probabilities along its path:
   $$
@@ -281,16 +281,16 @@ Let $Q = q_1, ..., q_N$ be the set of possible tags (hidden states).
 
 ### Why Use the Transition Matrix $A$?
 
-The **Markov assumption** is the reason for modeling tag transitions with a matrix $A$:
+The **Markov assumption** is the reason for modelling tag transitions with a matrix $A$:
 Each tag depends only on the previous tag, so transition probabilities between tag pairs are sufficient to describe the full tag sequence likelihood.
 
-Similarly, the **emission probability** depends **only on the current tag** (not previous tags or words). This greatly simplifies modeling.
+Similarly, the **emission probability** depends **only on the current tag** (not previous tags or words). This greatly simplifies modelling.
 
 ---
 
 ### Estimating A and B from Data
 
-Using a labeled corpus (e.g., treebank), we can estimate:
+Using a labelled corpus (e.g., treebank), we can estimate:
 
 - **Transition probabilities**:
   $$
@@ -355,7 +355,7 @@ This algorithm dramatically reduces the search space compared to brute-force enu
   HMMs rely on count-based probabilities. If a word was never seen in training, its emission probability is zero. This leads to poor generalization on out-of-vocabulary (OOV) words.
 
 - **One-tag context**:
-  The Markov assumption limits modeling to **first-order** tag dependencies. More expressive models (e.g., CRFs, neural taggers) can incorporate longer-range context.
+  The Markov assumption limits modelling to **first-order** tag dependencies. More expressive models (e.g., CRFs, neural taggers) can incorporate longer-range context.
 
 - **Hard assumptions**:
   Emission independence is often unrealistic — some words depend on both preceding tags and lexical content.

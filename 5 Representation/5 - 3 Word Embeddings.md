@@ -89,7 +89,7 @@ Intrinsic (Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, "Efficient Estim
 
 - See: https://projector.tensorflow.org/
 - **Extrinsic**
-	- compare word embeddings and n-grams as input to a number of downstream tasks
+  - compare word embeddings and n-grams as input to a number of downstream tasks
 
 ## Visualising Word Embeddings
 
@@ -143,7 +143,7 @@ Major achievement:
 Train a classifier on a binary prediction task:
 
 - Given a word $t$ predict if a word $c$ is in the context
-	- generating term-context $(t,c)$ pairs
+  - generating term-context $(t,c)$ pairs
 Thus we want our classifier to estimate the following probability:$$P(+|w,c)$$
 Whereby $$similarity(w,c) \approx c \cdot w$$
 $$P(+|w,c) = \sigma(c\cdot w) = \frac{1}{1+exp(-c \cdot w)}$$
@@ -163,8 +163,8 @@ Training process:
 Model perspective:
 
 - each word t in corpus has two d-dimensional representations totalling $d*2|V|$ parameters
-	- w - target words representation
-	- c - context and noise word representation
+  - w - target words representation
+  - c - context and noise word representation
 - final embedding form for word i:
 	1) $w_i + c_i$
 	2) $w_i$
@@ -204,10 +204,10 @@ For each positive pair (target word, context word), we create $k$ (hyperparamete
 
 - Context words randomly sampled favouring closer words with hyperparameter window size L
 - L changes the utility of our embeddings:
-	- Small window size = semantically similar with the same positions
-	- larger window size = topical relatedness
+  - Small window size = semantically similar with the same positions
+  - larger window size = topical relatedness
 - Pre-trained word embeddings are the most popular representation for learning algorithms
-	- be careful: bias may propagate throughout the system
+  - be careful: bias may propagate throughout the system
 
 **Connection to matrix factorization:**
 Skip-Gram with negative sampling model is connected to matrix
@@ -233,9 +233,9 @@ This work reshaped understanding of word embeddings by highlighting the importan
 - Context distribution smoothing (a technique borrowed from Word2Vec) significantly improves PPMI by mitigating its bias toward rare word co-occurrences.
 - There is no consistent global advantage of neural embeddings over count-based methods when both are optimized.
  - **Practical Recommendations**:
-	- Always use context distribution smoothing (cds=0.75) for PPMI/SVD.
-	- Avoid the traditional SVD setup (eig=1); symmetric variants (eig=0 or 0.5) perform better.
-	- SGNS is a robust baseline due to its efficiency and competitive performance.
+  - Always use context distribution smoothing (cds=0.75) for PPMI/SVD.
+  - Avoid the traditional SVD setup (eig=1); symmetric variants (eig=0 or 0.5) perform better.
+  - SGNS is a robust baseline due to its efficiency and competitive performance.
 
 #### Contradictions to Prior Work:
 
@@ -300,8 +300,8 @@ GloVe aims to learn word vectors such that their dot product is related to the l
 
 4.  **Final Embeddings:**
 
-	- same as Word2Vec
-    - After training, the final word embedding for a word $i$ is typically obtained by summing its word vector and its context word vector: $e_i = w_i + \tilde{w}_i$, or simply using $w_i$
+  - same as Word2Vec
+  - After training, the final word embedding for a word $i$ is typically obtained by summing its word vector and its context word vector: $e_i = w_i + \tilde{w}_i$, or simply using $w_i$
 
 **Advantages of GloVe:**
 

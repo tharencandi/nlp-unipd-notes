@@ -25,7 +25,7 @@ Attention can be thought of as a way to build contextual representations of a to
 $$attention(q, k, v ) = \sum_i similarity (q, k_i )v_i$$
 
 - Simplified it is the weighed sum $a_i = \sum a_{ij}x_j$
-	- $a_{ij}$ - how much x should contribute to $a_i$
+  - $a_{ij}$ - how much x should contribute to $a_i$
 [1] Bahdanau et al. “Neural Machine Translation by Jointly Learning to Align and Translate”
 [2] Vaswani et al. “Attention Is All You Need”
 
@@ -39,9 +39,9 @@ Intuitively, attention constructs a summary vector of all words that is weighted
 $$attention(q, k, v ) = \sum_i similarity (q, k_i )v_i$$
 
 - To capture these roles we use three matrices:
-	- $q_i = x_iW^Q$
-	- $k_i=x_iW^K$
-	- $v_i=x_iW^V$
+  - $q_i = x_iW^Q$
+  - $k_i=x_iW^K$
+  - $v_i=x_iW^V$
 
 - q can be learnt as a parameter of the network
 $$score(x_i,x_j) = \frac{q_i \cdot k_j}{\sqrt{d_k}}$$
@@ -61,15 +61,15 @@ $$h^d_i = g(\hat{y_{i-1}},h^d_{i-1},c_i)$$
 - it allows each $\hat{y}_i$ to focus on each encoder state (different parts of the input sentence) via the custom $c_i$ .
 - Attention assumes that all hidden states are explicitly available
 - Many-to-many relationship between output and input-hidden states
-	- Long term relationship can be exploited
+  - Long term relationship can be exploited
 
 $$attention(q,k,v) = \sum_isim(q,k_i)v_i$$
 such that
 
 - $sim(q,k_i) = q^Tk_i$
 - $sim(q,k_i) = q^TWk_i$
-	- weights W learned
-	- q and k do not have to be in same space
+  - weights W learned
+  - q and k do not have to be in same space
 - $sim(q,k_i) = w^T_q tanh(W[q;k_i]$
 
 ## Transformers
@@ -95,8 +95,8 @@ Multi-Head attention (N heads)
 - multiple attention matrices are computed with different initial conditions and then combined.
 - each head captured different relations.
 - $A$ separate attention heads that reside in parallel layers at the same depth in a model
-	- each with its own set of parameters that allows the head to model different aspects of the relationships among inputs.
-	- each head i in a self-attention layer has its own set of key, query and value matrices to project the inputs into separate key, value, and query embeddings for each head.
+  - each with its own set of parameters that allows the head to model different aspects of the relationships among inputs.
+  - each head i in a self-attention layer has its own set of key, query and value matrices to project the inputs into separate key, value, and query embeddings for each head.
 
 For each attention head, the attention embedded is added with the positional sentence embddings and normalised which
 

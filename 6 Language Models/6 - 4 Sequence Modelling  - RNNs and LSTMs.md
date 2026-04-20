@@ -27,25 +27,28 @@ In principle the hidden state can represent information from all preceding words
 
 ### Model Definition
 
-$$e_t= Ex_t$$ $$h_t= g(Uh_{t−1} + We_t )$$
+$$e_t= Ex_t$$
+
+$$h_t= g(Uh_{t−1} + We_t )$$
+
 $$\hat{y}_t= softmax (Vh_t )$$
 
 where:
 
 - $d_a$
-	- the size of the hidden vectors
+  - the size of the hidden vectors
 -  $x_t : |V | × 1$
-	- 1-hot representation of word wt
+  - 1-hot representation of word wt
 - $E : d × |V |$
-	- learnable matrix with the word embeddings
+  - learnable matrix with the word embeddings
 - $U, W : d × d$
-	- learnable matrices
+  - learnable matrices
 -  $h_t : d × 1$
-	- the hidden vector at step $t$
+  - the hidden vector at step $t$
 - $V : |V | × d$
-	- learnable matrix
+  - learnable matrix
 -  $ŷt : |V | × 1$
-	- probability distribution
+  - probability distribution
 
 **weight tying**:
 
@@ -105,7 +108,13 @@ Both $h_t$ and $c_t$ are dependent on gates
 - output gate -> for hidden state
 
 Let
-$$a = [a_1 , a_2 ; . . . , a_n ] \in \Re^n$$ $$b = [b_1 , b_2 ; . . . , b_n ] ∈ \Re^n$$ Then
+
+$$a = [a_1 , a_2 ; . . . , a_n ] \in \Re^n$$
+
+$$b = [b_1 , b_2 ; . . . , b_n ] ∈ \Re^n$$
+
+Then
+
 $$a \odot b = [a_1 · b_1 , a_2 · b_2 , . . . , a_n · b_n ] \in \Re^n$$
 
 ### Gate definitions
@@ -115,7 +124,7 @@ $$f_t = \sigma(U_f h_{t−1} + W_f x_t )$$
 
 $$k_t = c_{t−1} \odot f_t$$
 
-	- $k_t$ is the previous context with some information removed;
+  - $k_t$ is the previous context with some information removed;
 
 2. Add gate
 
@@ -123,9 +132,9 @@ $$g_t = tanh(U_g h_{t−1} + W_g x_t )$$
 $$i_t = \sigma(U_i h_{t−1} + W_i x_t )$$
 $$j_t = g_t ⊙ i_t$$
 
-	- $j_t$ is the information from the previous hidden state that will  be added to the context
+  - $j_t$ is the information from the previous hidden state that will  be added to the context
 
-	- the new context is $ct = j_t + k_t$
+  - the new context is $ct = j_t + k_t$
 
 3. Output Gate
 $$o_t = \sigma(U_o h_{t−1} + W_o x_t )$$

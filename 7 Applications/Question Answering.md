@@ -54,7 +54,7 @@ QA systems can be built across closed or open domains.
    - Dependency and constituency parsing
 
 3. **Intent and Question Analysis**
-   Analyzes the parsed text to detect:
+   Analyses the parsed text to detect:
 
    - User commands and actions (e.g., “Set my alarm”)
    - Information-seeking questions requiring retrieval
@@ -73,23 +73,27 @@ QA systems can be built across closed or open domains.
 6. **Text-to-Speech (TTS)**
    Transforms the generated text into synthesized spoken language, completing the pipeline.
 
-## Corpora for reading comprehension
+## Corpora for Reading Comprehension
 
-- CNNDailymaily, cbt, squad,
-- assumptions: context is read on the fly and unknown during training; answer is contained in the context as a single word or span;
+Several large-scale datasets have been developed for training and evaluating reading comprehension systems, including **CNN/DailyMail**, **CBT** (Children's Book Test), and **SQuAD** (Stanford Question Answering Dataset).
 
-## Language Model as knowledge bases
+These datasets share common assumptions:
 
-- useful for factoid questions
-	- questions easy to formulate a template answer
-- Hallucination is a problem
-	- can be mitigated somewhat by knowing that the needed data nhas been used to train the LLM
+- The context passage is read on the fly and is unknown during training
+- The answer is contained within the context as a single word or continuous span
+- The task requires extracting relevant information rather than generating new text
 
-### Introduction to Retrieval Augmented generation (RAG)
+## Language Models as Knowledge Bases
 
-- since it is not feasible for all needed information to be present during training (due to retraining costs)
-- we want to augment the retreival of an LLM by injecting relevant context into the query automatically within a templated prompt.
-- In order to get the relevant information we look to information retrieval techniques.
+Large language models can serve as knowledge bases for answering factoid questions—questions that can be answered with a simple template or direct fact. For example, "Who wrote Pride and Prejudice?" can be answered with "Jane Austen."
+
+However, this approach faces a significant challenge: **hallucination**. Language models may generate plausible-sounding but factually incorrect answers. This risk can be somewhat mitigated by ensuring that the relevant factual information was included in the model's training data, though this is not a complete solution.
+
+### Introduction to Retrieval-Augmented Generation (RAG)
+
+Since it is not feasible for all needed information to be present during training (due to prohibitive retraining costs), a more practical approach is to augment the retrieval capabilities of an LLM by automatically injecting relevant context into the query using a templated prompt. This technique is known as **Retrieval-Augmented Generation (RAG)**.
+
+To retrieve relevant information, we leverage information retrieval techniques, which we'll explore next.
 
 ### Information Retrieval (IR)
 
@@ -101,7 +105,7 @@ QA systems can be built across closed or open domains.
 $$score(q,d) = cos(q,d) = \frac{q}{|q|} . \frac{d}{|d|}$$
 
 - BM25 TF-IDF extension
-	- weights the contribution of term and controls importance of documents normalisation
+  - weights the contribution of term and controls importance of documents normalisation
 $$score(D,Q) = \sum^n_{i=1}IDF(q_i). \frac{f(q_i,D).(k_1+1)}{f(q_i,D)+k_1.(1-b+b.\frac{|D|}{avgdl})}$$
 
 - $f(qi,D)$ =frequency of $q_i$ in D
@@ -139,8 +143,8 @@ find the sliding window through the maximal BoW similarity between answer and wi
 Logistic Reression SQuAD baseline
 
 - features from the candidates
-	- lengths, bigram freq, word freq, span POS tags, lexical features, dep tree path features
-	- use features for final prediction
+  - lengths, bigram freq, word freq, span POS tags, lexical features, dep tree path features
+  - use features for final prediction
 Neural approach
 
 - FastQA

@@ -69,7 +69,7 @@ where only one word (index) has a non-zero value in the vector.
 ### Term-Document Matrix
 
 - Directly embodies the distributional hypothesis.
-	- Context as documents
+  - Context as documents
 - Treat each row as a vector in the document space
 - compute cosine similarities between vectors - words that appear in similar documents are said to be semantically similar.
 
@@ -79,12 +79,12 @@ Let
 - L = window size (hyper parameter)
 Then term-matrix(i,j) =
 - Count of word in document with window size L
-	- bad for stopwords (too much impact)
+  - bad for stopwords (too much impact)
 
 With a Term-Document Matrix we can compute:
 - **TF with log scaling:$\qquad \text{tf}_{t,d} = \log_{10}(\text{count}(t, d) + 1)$
 - **IDF (Inverse Document Frequency):** $\qquad \text{idf}_{t} = \log_{10}\left(\frac{N}{\text{df}_t}\right)$
-	- weights higher terms that are rare amongst documents
+  - weights higher terms that are rare amongst documents
 - **TF-IDF:** The TF-IDF weight of a term in a document is the product of its TF and IDF $$\qquad w_{t,d} = \text{tf}_{t,d} \times \text{idf}_{t}$$
 
 ### Term-Term Matrix
@@ -142,7 +142,7 @@ $$\qquad \hat{C}_k = U_k S_k V_k^T$$
 5.  **Obtain Vector Representations:**
     * **Term Vectors:** Rows of $U_k$ (or columns of $U_k S_k$).
     * **Document Vectors:** Rows of $V_k^T$ (or columns of $V_k S_k$).
-6.  **Analyze Semantic Relationships:** Use the reduced vectors to measure similarity.
+6.  **Analyse Semantic Relationships:** Use the reduced vectors to measure similarity.
 
 **Limitations of LSA:**
 * Loss of Information due to dimensionality reduction.

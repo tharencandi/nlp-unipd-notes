@@ -12,20 +12,20 @@ $f = X \rightarrow Y$, where
 
 - $X$ is the input (natural language domain)
 - $Y$ is
-	- $\{0,1\}$ binary
-	- $\{0,..,N\}$ multi-class
-	- Real number regression
-	- $\{0,1\}^m$  (mult-ilabel)
+  - $\{0,1\}$ binary
+  - $\{0,..,N\}$ multi-class
+  - Real number regression
+  - $\{0,1\}^m$  (mult-ilabel)
 - There is some *true* distribution of $P(x,y)$ - but it is impossible to know.
 
 ## Annotation
 
 - automatic label procedures
-	- reviews with ratings for sentiment
-	- exploiting forum moderators for hate speech detection
+  - reviews with ratings for sentiment
+  - exploiting forum moderators for hate speech detection
 
 - manual annotation; metadata; hybrid via *campaigns*
-	- campaigns are expressive of P(x,y), replaceable, scalable
+  - campaigns are expressive of P(x,y), replaceable, scalable
 
 ## Data Collection
 
@@ -41,30 +41,30 @@ $f = X \rightarrow Y$, where
  **in annotation**
 
  - Designers can have wrong assumptions.
-	 - e.g stake in high risk care management task under assumption paitents who attend healthcare more are sicker (ignores socio-economic factors)
+   - e.g stake in high risk care management task under assumption paitents who attend healthcare more are sicker (ignores socio-economic factors)
  **Implicit Bias**
 
  - e.g image classifier learn to recongise background instead of animal (because bird is always in sky)
-	 - dataset is too narrow
+   - dataset is too narrow
 
 ## Annotation Procedure
 
 - multiple experts or users
-	- multiple experts are costly
-	- crowdsourcing alternative
-	- software solutions (inception, anafora,MTurk, custom,)
+  - multiple experts are costly
+  - crowdsourcing alternative
+  - software solutions (inception, anafora,MTurk, custom,)
 - analysed together to extract golden labels
 - need **full theoretical knowledge** relevant for problem
 - consider **scalability v expressiveness trade-off**
 
 1. Formalise instructions for task
 
-	-  to ensure replicability be clear;unambiguous
+  -  to ensure replicability be clear;unambiguous
 
 2. setup annotation schema and perform **pilot annotation**
 
-	- test, review and modify instructions
-	- create **golden labels** to quantitatively check the performance of annotators
+  - test, review and modify instructions
+  - create **golden labels** to quantitatively check the performance of annotators
 
 3. start campaign
 	1. multiple annotators per example

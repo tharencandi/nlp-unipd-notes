@@ -25,7 +25,7 @@ Perplexity must be paired with specific evaluation metrics for downstream tasks.
 - Perplexity = **weighted average branching factor** of a language.
 - Branching factor = number of possible next words.
 
-### Example: Deterministic Language (3 colors)
+### Example: Deterministic Language (3 colours)
 
 * Language $L = \{\text{red, blue, green}\}$ (3.18)
 * Branching factor = 3.

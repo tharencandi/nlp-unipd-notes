@@ -14,7 +14,7 @@ We’d like to know whether this answers the question:
 
 This kind of inference requires identifying **the roles of entities** in events, rather than just relying on surface forms. SRL makes it possible by mapping words to semantic roles associated with verbs (predicates).
 
-The utility of SRL lies in its ability to **generalize across surface variations** of how roles are expressed.
+The utility of SRL lies in its ability to **generalise across surface variations** of how roles are expressed.
 
 ### Example: Role Equivalence Across Sentence Variants
 
@@ -111,7 +111,7 @@ Semantic roles capture the abstract relationships between predicates and their a
 
 ### VerbNet Roles
 
-VerbNet defines a set of **generalized roles** that apply across verbs, grounded in formal semantics. A few core roles:
+VerbNet defines a set of **generalised roles** that apply across verbs, grounded in formal semantics. A few core roles:
 
 - **AGENT**
   The actor who initiates and intentionally carries out the event.
@@ -136,7 +136,7 @@ VerbNet defines a set of **generalized roles** that apply across verbs, grounded
   The information content transferred in communicative events.
   *e.g., "the news" in "John told her the news."*
 
-VerbNet roles aim to generalize across many surface forms and lexical frames, enabling higher-level semantic inference.
+VerbNet roles aim to generalise across many surface forms and lexical frames, enabling higher-level semantic inference.
 
 ### PropBank Roles
 
@@ -234,7 +234,7 @@ PropBank supports **modifiers** marked as ArgM-* labels. These represent informa
 
 ## FrameNet
 
-FrameNet is a lexical-semantic resource that organizes meaning in terms of **semantic frames**—structured descriptions of events or situations along with their participants. Unlike PropBank, which defines roles on a per-verb basis, FrameNet aims to **generalize across verbs** by grouping them under shared frames.
+FrameNet is a lexical-semantic resource that organizes meaning in terms of **semantic frames**—structured descriptions of events or situations along with their participants. Unlike PropBank, which defines roles on a per-verb basis, FrameNet aims to **generalise across verbs** by grouping them under shared frames.
 
 ### Motivation
 
@@ -282,7 +282,7 @@ The frames **COMMERCE_SELL** and **LENDING** both inherit from the more abstract
 
 ## Feature-Based Approaches
 
-Feature-based Semantic Role Labeling is treated as a **multiclass classification problem**, where each span (or node) in a sentence must be labeled with a semantic role (e.g., ARG0, ARG1) or with a special **no-role class** if it does not correspond to any argument.
+Feature-based Semantic Role Labeling is treated as a **multiclass classification problem**, where each span (or node) in a sentence must be labelled with a semantic role (e.g., ARG0, ARG1) or with a special **no-role class** if it does not correspond to any argument.
 
 The standard pipeline is as follows:
 
@@ -331,7 +331,7 @@ This global inference ensures that role assignments are both **coherent** and **
 
 ## Neural Approaches
 
-Modern Semantic Role Labeling systems are predominantly based on **neural architectures**, which remove the need for hand-engineered features and allow the model to learn contextualized representations directly from raw input.
+Modern Semantic Role Labeling systems are predominantly based on **neural architectures**, which remove the need for hand-engineered features and allow the model to learn contextualised representations directly from raw input.
 
 ### Tagging Formulation: BIO Encoding
 
@@ -355,7 +355,7 @@ The typical input to the model consists of:
 - A special delimiter `[SEP]`
 - The **predicate** of interest, e.g., “taught”
 
-This ensures the model is aware of which verb it should analyze the arguments for, especially when multiple predicates are present in a sentence.
+This ensures the model is aware of which verb it should analyse the arguments for, especially when multiple predicates are present in a sentence.
 
 ### Neural Architecture
 
@@ -375,7 +375,7 @@ A standard architecture includes the following components:
    $$
    h_i = \text{FFN}([x_i; p])
    $$
-   where $x_i$ is the contextualized embedding of token $i$ and $p$ is the embedding of the predicate.
+   where $x_i$ is the contextualised embedding of token $i$ and $p$ is the embedding of the predicate.
 
 4. **Softmax Classification**
    The FFN output is passed through a softmax layer to produce a distribution over possible BIO tags:

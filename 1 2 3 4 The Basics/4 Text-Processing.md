@@ -8,15 +8,15 @@ Different stages of the text processing pipeline. **Not all stages are always us
 
 - language specific
 
-	- rule based for easily parsable languages (not always the case)
+  - rule based for easily parsable languages (not always the case)
 
 - NLTK tokeniser, Spacy
 
 - **subword tokenisation**
 
-	-  reduced vocab size (e.g football -> foot, ball)
+  -  reduced vocab size (e.g football -> foot, ball)
 
-	- most common for LLMS
+  - most common for LLMS
 
 ### BPE Tokeniser
 
@@ -49,7 +49,7 @@ These set of irrelevant distinctions are **application dependent** but can inclu
 
 - we want to reduce feature space to minimise the *curse of dimensionality* and increase *generalisation*
 
-	- without eliminating linguistically meaningful distinctions
+  - without eliminating linguistically meaningful distinctions
 
 - all tokens are features; discriminative features depend on imbalance of feature between classes
 
@@ -61,9 +61,9 @@ slicing words to remove affixes. used heavily in Information Retreival (IR)
 
 - can produce words that are not in the language and words with different meanings
 
-	- arguing -> argu
+  - arguing -> argu
 
-	- caring -> car
+  - caring -> car
 
 - Porter and Snowball (rule-based) stemmer
 
@@ -84,22 +84,22 @@ More resource-intensive
 used for spell checking, tokenisation, and  acronym expansion.
 Statistical techniques
 
-	- functional word frequency
+  - functional word frequency
 
-	- N-gram language models
+  - N-gram language models
 
-	- distance measures via mutual information
+  - distance measures via mutual information
 
-	- see python langdetect, apache OpenNLP LanguageDetector
+  - see python langdetect, apache OpenNLP LanguageDetector
 
 ## Spell checking
 correct grammatical mistakes via *approximate string matching algorithms*
 
-	- levenshtien distance
+  - levenshtien distance
 
-	- contextual information?
+  - contextual information?
 
-	- incomplete dictionary
+  - incomplete dictionary
 python: TextBlob, fixxywuzzy
 
 ## Punctuation

@@ -16,11 +16,11 @@
 **Exam**:
 
 - Coding exercise
-	- Does the code do what the statement says? If not, fix it
-	- Or just explain
+  - Does the code do what the statement says? If not, fix it
+  - Or just explain
 - Open and multiple choice questions
-	- Refer to book coverage not just slides
-	- Example question: What is semantic role labelling? List the 5 elements of linguistic analysis and describe them briefly.
+  - Refer to book coverage not just slides
+  - Example question: What is semantic role labelling? List the 5 elements of linguistic analysis and describe them briefly.
 
 ## Overview
 
@@ -65,7 +65,7 @@
 
 **Applications**:
 
-1. **Analysis**: sentiment analysis, text classification, paraphrasing, entailment, authorship attribution, topic modeling, QA, fake news/reviews detection
+1. **Analysis**: sentiment analysis, text classification, paraphrasing, entailment, authorship attribution, topic modelling, QA, fake news/reviews detection
 2. **Generation**: machine translation, automatic journalism, chatbots, summarization
 3. **GenAI**: Copilot (text→code), DALL·E/Midjourney (text→image), Pika/Sora (text→video)
 
