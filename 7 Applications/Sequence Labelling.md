@@ -1,44 +1,47 @@
+# Sequence Labelling
+
 In contrast to Semantic Role Labeling, where roles are assigned to **spans of text relative to a predicate**, **sequence labelling** assigns **discrete labels to individual elements** in a sequence, typically tokens or characters.
 
 The task is to assign a label $y_t$ to each element $x_t$ in a sequence $x = (x_1, ..., x_T)$.
 
 Sequence labelling is a fundamental abstraction in NLP, and it appears in many canonical tasks.
 
-### Examples of Sequence Labelling Tasks
+## Examples of Sequence Labelling Tasks
 
 Sequence labelling occurs in a wide range of linguistic annotation tasks, including:
 
-- **Named Entity Recognition (NER)**  
+- **Named Entity Recognition (NER)**
   Label each token with BIO tags indicating named entities and their type.
 
-- **Aspect-Based Sentiment Analysis**  
+- **Aspect-Based Sentiment Analysis**
   Identify which parts of a sentence express sentiment, and assign sentiment polarity labels to aspects (e.g., “food”: positive, “service”: negative).
 
-- **Part-of-Speech (POS) Tagging**  
+- **Part-of-Speech (POS) Tagging**
   Assign grammatical category labels (e.g., Noun, Verb, Adjective) to each token in a sentence.
 
 Additional:
 
-- **Tokenization**  
-  Especially in languages like Chinese, where word boundaries are not explicit.  
+- **Tokenization**
+  Especially in languages like Chinese, where word boundaries are not explicit.
   A common approach is to predict a **Start/NonStart** tag for each character.
 
-- **Code-Switching Detection**  
-  Detecting points where speakers switch between languages in multilingual contexts.  
+- **Code-Switching Detection**
+  Detecting points where speakers switch between languages in multilingual contexts.
   Each token may be labelled with the language it belongs to.
 
-- **Dialogue Act Classification**  
-  Classify each utterance in a conversation as one of: statement, question, command, backchannel, etc.  
+- **Dialogue Act Classification**
+  Classify each utterance in a conversation as one of: statement, question, command, backchannel, etc.
   This supports understanding of the communicative function of each turn.
-### Approaches to Sequence Labelling
+
+## Approaches to Sequence Labelling
 
 Sequence labelling models can be broadly categorised into **local** and **global** approaches, depending on whether they predict labels independently or jointly.
 
-#### Local Search
+### Local Search
 
-- The task is decomposed into a series of **independent classification problems**.  
+- The task is decomposed into a series of **independent classification problems**.
 - A classifier is trained to assign a label to each token based on local context (e.g., using a fixed-size window or contextual embedding).
-- Example:  
+- Example:
   Predict the POS tag for each token based on surrounding words and its own features.
 
 This approach is simple and efficient but may suffer from **label inconsistency** (e.g., predicting I-ORG following B-PER).
@@ -51,35 +54,37 @@ This approach is simple and efficient but may suffer from **label inconsistency*
 
 Global search allows the model to enforce **label dependencies** and **structural constraints**, leading to better performance in tasks with strong sequential structure (e.g., BIO tagging).
 
-
 ## Named Entity Recognition (NER)
 
 Named Entity Recognition (NER) is the task of identifying **proper names** or **specific expressions** in text and classifying them into a predefined set of semantic categories.
 
 The most universally accepted NER types include:
+
 - **Person** (e.g., “Angela Merkel”)
 - **Location** (e.g., “Heathrow”, “Europe”)
 - **Organisation** (e.g., “United Nations”, “MTV”)
 
 Other common entity types include:
+
 - **Date/Time expressions** (e.g., “3 p.m.”, “January 2020”)
 - **Quantities and Measures** (e.g., “5 kg”, “20 percent”, “$100”)
 - **Identifiers** (e.g., email addresses, IP addresses, URLs)
 - **Domain-specific entities**, such as drug names, genes, or product codes in biomedical or financial texts.
+
 ### Ambiguities in Category Definition
 
 Despite seemingly clear-cut categories, many cases introduce **semantic grey areas** where classification becomes context-sensitive:
 
-- **Organisation vs Location**:  
-  - “England won the World Cup” → *England* as an organisation (national team)  
+- **Organisation vs Location**:
+  - “England won the World Cup” → *England* as an organisation (national team)
   - “The World Cup took place in England” → *England* as a geographic location
 
-- **Company vs Artefact**:  
-  - “Shares in MTV rose” → *MTV* as a company  
+- **Company vs Artefact**:
+  - “Shares in MTV rose” → *MTV* as a company
   - “We were watching MTV” → *MTV* as a broadcast artefact
 
-- **Location vs Organisation**:  
-  - “She met him at Heathrow” → *Heathrow* as a location  
+- **Location vs Organisation**:
+  - “She met him at Heathrow” → *Heathrow* as a location
   - “The Heathrow authorities issued a statement” → *Heathrow* as an organisation
 
 NER systems must **disambiguate** such cases based on context, which is a key challenge for robust entity recognition.
@@ -88,21 +93,22 @@ NER systems must **disambiguate** such cases based on context, which is a key ch
 
 Popular NLP libraries such as **spaCy** define their own extended label sets. These include:
 
-- **PERSON** – people, including fictional  
-- **ORG** – companies, agencies, institutions  
-- **GPE** – geopolitical entities (countries, cities, states)  
-- **LOC** – non-GPE locations (mountains, bodies of water)  
-- **FAC** – facilities (e.g., buildings, airports)  
-- **PRODUCT**, **EVENT**, **WORK_OF_ART**, **LAW**, **LANGUAGE**  
+- **PERSON** – people, including fictional
+- **ORG** – companies, agencies, institutions
+- **GPE** – geopolitical entities (countries, cities, states)
+- **LOC** – non-GPE locations (mountains, bodies of water)
+- **FAC** – facilities (e.g., buildings, airports)
+- **PRODUCT**, **EVENT**, **WORK_OF_ART**, **LAW**, **LANGUAGE**
 - **DATE**, **TIME**, **PERCENT**, **MONEY**, **QUANTITY**, **ORDINAL**, **CARDINAL**
 
 These finer-grained labels improve expressivity but often increase annotation difficulty and classification ambiguity.
+
 ### BIO Encoding for Sequence Labeling
 
 NER is typically cast as a **sequence labeling problem**, where each token is assigned a tag using the **BIO format**:
 
-- **B-XXX**: beginning of an entity of type XXX  
-- **I-XXX**: inside an entity  
+- **B-XXX**: beginning of an entity of type XXX
+- **I-XXX**: inside an entity
 - **O**: outside (not part of any entity)
 
 Example (BIO-tagged sentence):
@@ -112,14 +118,16 @@ Example (BIO-tagged sentence):
 This structure supports contiguous entity detection and is suitable for input into neural sequence models.
 
 BIO can also be extended to include **E (end)** or **S (singleton)** tags in more advanced systems, but B-I-O is the most widely used baseline.
+
 ### Subtasks of NER
 
 NER can be divided into two subtasks:
 
-1. **Boundary detection**: locate the span of text that constitutes an entity  
+1. **Boundary detection**: locate the span of text that constitutes an entity
 2. **Entity classification**: determine the type of the identified span
 
 These may be performed jointly (in end-to-end systems) or sequentially (in pipeline architectures).
+
 ### Approaches to NER
 
 #### Traditional Approaches
@@ -129,6 +137,7 @@ Early systems used hand-crafted features with **window-based classifiers**, simi
 #### Neural Approaches
 
 Modern systems rely on:
+
 - **Recurrent Neural Networks (RNNs)** or **BiLSTMs**
 	- See [[##Named Entity Recognition with MLLMs|NER with MLLMs]]
 - **CRF decoding** for enforcing label constraints (e.g., I-ORG cannot follow B-PER)
@@ -142,31 +151,30 @@ Modern systems rely on:
   - Apostrophes (e.g., “O’Brien”)
   - Word shape and suffixes
 
-- **POS tags**, **lemmas**, **stems**  
-- **Gazetteers**: dictionaries of known entities (e.g., city names, company lists)  
+- **POS tags**, **lemmas**, **stems**
+- **Gazetteers**: dictionaries of known entities (e.g., city names, company lists)
 - **Word frequency**: rare words are more likely to be named entities
 
 These features can be encoded directly or used as inputs to statistical models.
-
-
 
 ## POS - Part of Speech labelling
 
 A part of speech is a category of words that play similar roles within the syntactic structure of a sentence.
 
-open class: 
-- adj,adv,intj,noun,propn,verb
-- varies speaker to speaker 
+open class:
 
-closed class: 
+- adj,adv,intj,noun,propn,verb
+- varies speaker to speaker
+
+closed class:
+
 - adposition; auxiliary verb;conjunction;determinier;cardinal numbers;pronounms
 - all speakers share the same words
 
-There are canonical "tagsets" (for english mostly) that have been used in NLP. 
+There are canonical "tagsets" (for english mostly) that have been used in NLP.
 
-- Penn Treebank POS tags (Marcus et al. “Building a large annotated corpus of English:The Penntreebank”. Computational Linguistics, 19(2):313–330, 1993.)
+- Penn Treebank POS tags (Marcus et al. "Building a large annotated corpus of English: The Penn Treebank". Computational Linguistics, 19(2):313–330, 1993.)
 - Other tagsets: Universal Dependencies (de Marneffe et al.. “Universal Dependencies”. Computational Linguistics, 47(2):255–308, 2021.)
-
 
 ### Part-of-Speech (PoS) Tagging
 
@@ -190,14 +198,14 @@ While the **majority of word types** (around 85%) are unambiguous and appear wit
 
 A traditional baseline is the **majority class assignment**, where each word is assigned the most common tag it holds in the training corpus. This achieves high performance—approximately **92.34% accuracy** on the Wall Street Journal portion of the Penn Treebank when evaluated with Universal Dependencies.
 
-However, this baseline fails to generalize to unseen words or context-driven disambiguation.
+However, this baseline fails to generalise to unseen words or context-driven disambiguation.
 
 Modern PoS tagging systems, typically based on **neural architectures** such as BiLSTM or Transformer encoders, have achieved **human-level accuracy** on standard benchmarks. These models capture rich context through learned embeddings and attention, substantially outperforming symbolic or rule-based taggers.
-
 
 ### Aproaches
 
 Rule based
+
 - start with a dictionary
 - assigned all possible tags to word from the dictionary
 - write rules manually to selectivley remove tags
@@ -214,7 +222,7 @@ $$
 That is, the probability of the current state depends **only on the previous state**, not the full sequence history. This assumption simplifies computation in sequence models.
 
 - A Markov chain is a directed graph where **nodes** represent states and **edges** represent state transitions.
-- **Edges are labeled with probabilities**, defining the likelihood of moving from one state to another.
+- **Edges are labelled with probabilities**, defining the likelihood of moving from one state to another.
 - A **starting probability distribution** (initial state distribution) is also needed to describe the system.
 - The **probability of a sequence of states** is the product of the transition probabilities along its path:
   $$
@@ -228,13 +236,16 @@ That is, the probability of the current state depends **only on the previous sta
 In PoS tagging, we do **not observe the tags directly** — they are hidden. Instead, we observe a sequence of **words**, and we aim to infer the **most likely tag sequence** that generated them. HMMs extend Markov chains by introducing **emissions**: each hidden state emits an observable symbol with some probability.
 
 This means:
+
 - Each word is assumed to be **generated by a hidden tag**.
 - The goal is to infer the most probable sequence of hidden states (tags) that could have produced the observed word sequence.
 
 For every token in a sentence:
-- There is an **emission probability**: $P(w_i \mid t_i)$  
+
+- There is an **emission probability**: $P(w_i \mid t_i)$
   The probability that a tag $t_i$ emits word $w_i$.
-- There is a **transition probability**: $P(t_i \mid t_{i-1})$  
+
+- There is a **transition probability**: $P(t_i \mid t_{i-1})$
   The probability that tag $t_i$ follows tag $t_{i-1}$.
 
 ---
@@ -247,7 +258,7 @@ Let $Q = q_1, ..., q_N$ be the set of possible tags (hidden states).
   $$
   a_{ij} = P(q_j \mid q_i)
   $$
-  represents the probability of transitioning from state $i$ to state $j$.  
+  represents the probability of transitioning from state $i$ to state $j$.
   Each row in $A$ must sum to 1:
   $$
   \sum_{j=1}^N a_{ij} = 1
@@ -257,7 +268,7 @@ Let $Q = q_1, ..., q_N$ be the set of possible tags (hidden states).
   $$
   b_i(o_t) = P(o_t \mid q_i)
   $$
-  is the probability of generating word $o_t$ from state $q_i$.  
+  is the probability of generating word $o_t$ from state $q_i$.
   The vocabulary is denoted $V = \{v_1, ..., v_V\}$.
 
 - **Initial state distribution** $\pi = [\pi_1, ..., \pi_N]$, where:
@@ -270,16 +281,16 @@ Let $Q = q_1, ..., q_N$ be the set of possible tags (hidden states).
 
 ### Why Use the Transition Matrix $A$?
 
-The **Markov assumption** is the reason for modeling tag transitions with a matrix $A$:  
+The **Markov assumption** is the reason for modelling tag transitions with a matrix $A$:
 Each tag depends only on the previous tag, so transition probabilities between tag pairs are sufficient to describe the full tag sequence likelihood.
 
-Similarly, the **emission probability** depends **only on the current tag** (not previous tags or words). This greatly simplifies modeling.
+Similarly, the **emission probability** depends **only on the current tag** (not previous tags or words). This greatly simplifies modelling.
 
 ---
 
 ### Estimating A and B from Data
 
-Using a labeled corpus (e.g., treebank), we can estimate:
+Using a labelled corpus (e.g., treebank), we can estimate:
 
 - **Transition probabilities**:
   $$
@@ -310,6 +321,7 @@ $$
 $$
 
 Under the HMM assumptions:
+
 - $P(t_i \mid t_{i-1})$ (transition depends only on previous tag)
 - $P(w_i \mid t_i)$ (emission depends only on current tag)
 
@@ -328,6 +340,7 @@ This product form allows efficient decoding using **dynamic programming**.
 The **Viterbi algorithm** finds the tag sequence that **maximizes the above expression**.
 
 It builds a **matrix of tag probabilities**, where each entry records the probability of the best path to that tag at that word position. For each cell:
+
 - Consider all incoming transitions from the previous column (tags)
 - Keep the **highest-scoring** path only (prune the rest)
 - Store backpointers to reconstruct the optimal sequence
@@ -338,18 +351,16 @@ This algorithm dramatically reduces the search space compared to brute-force enu
 
 ## Limitations of HMM PoS Taggers
 
-- **Unknown words**:  
+- **Unknown words**:
   HMMs rely on count-based probabilities. If a word was never seen in training, its emission probability is zero. This leads to poor generalization on out-of-vocabulary (OOV) words.
 
-- **One-tag context**:  
-  The Markov assumption limits modeling to **first-order** tag dependencies. More expressive models (e.g., CRFs, neural taggers) can incorporate longer-range context.
+- **One-tag context**:
+  The Markov assumption limits modelling to **first-order** tag dependencies. More expressive models (e.g., CRFs, neural taggers) can incorporate longer-range context.
 
-- **Hard assumptions**:  
+- **Hard assumptions**:
   Emission independence is often unrealistic — some words depend on both preceding tags and lexical content.
 
 In practice, the Viterbi decoder can be **augmented with learning algorithms** or **smoothed** using backoff and lexicon heuristics to handle unknown words more effectively.
-
-
 
 ### Sliding Window Classifier for PoS Tagging
 
@@ -387,6 +398,7 @@ Although each token is classified independently, we may still want to find the *
 If our classifier defines a **score** for a tag sequence that is decomposable over token positions (e.g., scores depend only on current and previous tags), then we can apply the **Viterbi algorithm** for inference.
 
 The Viterbi algorithm returns the highest scoring tag sequence given:
+
 - A scoring function $s(t_{i-1}, t_i, x_i)$
 - A trained model with optimised feature weights
 
@@ -394,7 +406,7 @@ The Viterbi algorithm returns the highest scoring tag sequence given:
 
 #### Example
 
-Input sentence:  
+Input sentence:
 `they can fish`
 
 Assume two possible tags: Noun (N) and Verb (V)
@@ -405,6 +417,7 @@ $$
 $$
 
 We define a scoring function based on:
+
 - The current word $x_i$
 - The previous and current tag pair $(t_{i-1}, t_i)$
 - Feature weights from a learned model
@@ -412,10 +425,6 @@ We define a scoring function based on:
 Although each word is classified independently, the best sequence may be found using **dynamic programming** over the tag lattice. This allows us to select the **globally optimal sequence**, rather than the highest-scoring tag for each word in isolation.
 
 ---
-
-
-
-
 
 ### PoS Tagging with the Perceptron
 
@@ -428,13 +437,14 @@ This approach does not estimate transition and emission probabilities, as in HMM
 ### Learning Procedure
 
 Let:
+
 - $x$ be the input sentence (observed sequence of words)
 - $y$ be the correct tag sequence
 - $z$ be the predicted tag sequence under the current model weights
 
 The training algorithm proceeds as follows:
 
-1. **Prediction**  
+1. **Prediction**
    Use the current weights to decode the **best scoring sequence** $\hat{z}$ using **Viterbi decoding**:
    $$
    \hat{z} = \arg\max_{t_1, ..., t_n} \text{score}(x, t)
@@ -444,7 +454,7 @@ The training algorithm proceeds as follows:
    \text{score}(x, t) = w \cdot \Phi(x, t)
    $$
 
-2. **Update**  
+2. **Update**
    If $\hat{z} \neq y$ (i.e., the prediction is incorrect), **update the weights** by:
    $$
    w \leftarrow w + \Phi(x, y) - \Phi(x, \hat{z})
@@ -456,11 +466,13 @@ The training algorithm proceeds as follows:
 ### Feature Templates
 
 Features are based on:
+
 - The **current word** and its predicted tag
 - The **previous tag** and the current tag
 - Possibly the **next word**, **capitalization**, and **suffixes**
 
 Example features:
+
 - `(current_word = "dog", tag = N)`
 - `(prev_tag = D, current_tag = N)`
 - `(prev_tag = N, current_tag = V)`
@@ -472,17 +484,21 @@ These features capture both lexical and sequential dependencies.
 ### Worked Example
 
 Let:
-- Gold tag sequence:  
+
+- Gold tag sequence:
   `y = the/D man/N saw/V the/D dog/N`
-- Predicted tag sequence:  
-  `z = the/D man/N saw/N the/D dog/N`  
+
+- Predicted tag sequence:
+  `z = the/D man/N saw/N the/D dog/N`
   (i.e., the word *saw* was wrongly tagged as a noun instead of a verb)
 
 The feature update will:
+
 - **Increase** weights associated with the correct tag *V* for *saw*
 - **Decrease** weights associated with the incorrect tag *N* for *saw*
 
 Specifically:
+
 - Add weight for `(word = "saw", tag = V)`
 - Add weight for `(prev_tag = N, tag = V)`
 - Subtract weight for `(word = "saw", tag = N)`
@@ -500,10 +516,9 @@ This update will make it more likely that *saw* is tagged as a verb in similar f
 - It supports rich and overlapping features, making it more flexible than HMMs.
 
 **References:**
-1. Collins, M. (2002). *Discriminative Training Methods for Hidden Markov Models* [W02-1001]  
+
+1. Collins, M. (2002). *Discriminative Training Methods for Hidden Markov Models* [W02-1001]
 2. Shen et al. (2007). *Guided Learning for Bidirectional Sequence Classification* [P07-1096]
-
-
 
 1] Collins “Discriminative Training Methods for Hidden Markov Models: Theory and Experiments with Perceptron Algorithms” ( https://www.aclweb.org/anthology/W02-1001.pdf)
 [2] Shen et al. “Guided Learning for Bidirectional Sequence Classification” (https://www.aclweb.org/anthology/P07-1096/)

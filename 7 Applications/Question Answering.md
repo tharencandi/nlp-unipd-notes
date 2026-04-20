@@ -1,7 +1,8 @@
+# Question Answering
+
 So far we have focused on various aspects of NLP that can be used as building blocks for further downstream tasks. One such application of these techniques is Question Answering.
 
 At its core Question Answering are systems that are designed to automatically provide an answer for a question asked in natural language.
-
 
 ## General QA system overview
 
@@ -18,13 +19,14 @@ There is a taxonomy of types of question answering systems within the literature
 
 QA systems can be built across closed or open domains.
 
-- This has a large impact on the systems. 
+- This has a large impact on the systems.
 - Closed domains are usually much easier, as the questions and answers can be statically generated and a similarity function can be used for real time inference (knowledge base of question-answers)
 
 ### Sub-tasks
-1. Source - extracting the necessary context. 
+
+1. Source - extracting the necessary context.
 	1. sets of documents to compose the corpus
-	2. a single document 
+	2. a single document
 	3. knowledge base
 	4. non linguistic datatypes
 2. Answer - generating the answer
@@ -41,72 +43,82 @@ QA systems can be built across closed or open domains.
 
 ## Case Study: SIRI as a QA System
 
-1. **Automatic Speech Recognition (ASR)**  
+1. **Automatic Speech Recognition (ASR)**
    Converts human speech into raw text. This component is optimized for short utterances, including questions, commands, or dictations.
 
-2. **Natural Language Processing (NLP)**  
+2. **Natural Language Processing (NLP)**
    Performs syntactic analysis to translate raw transcriptions into structured text using techniques such as:
+
    - Part-of-speech tagging
    - Noun phrase chunking
    - Dependency and constituency parsing
 
-3. **Intent and Question Analysis**  
-   Analyzes the parsed text to detect:
+3. **Intent and Question Analysis**
+   Analyses the parsed text to detect:
+
    - User commands and actions (e.g., “Set my alarm”)
    - Information-seeking questions requiring retrieval
 
-4. **Information Retrieval and API Access**  
+4. **Information Retrieval and API Access**
    SIRI determines whether it can answer a question internally or whether it must delegate it to an external service.
+
    - If internal capabilities are insufficient, it forwards the query to more general QA systems like **WolframAlpha**.
    - This is particularly used for open-domain factual queries.
 
-5. **Text Generation**  
+5. **Text Generation**
    Takes structured data returned from external services (e.g., weather APIs) and converts it into natural language output.
+
    - Example: `"sunny", 25°C` → “The weather will be sunny tomorrow.”
 
-6. **Text-to-Speech (TTS)**  
+6. **Text-to-Speech (TTS)**
    Transforms the generated text into synthesized spoken language, completing the pipeline.
 
-## Corpora for reading comprehension
-- CNNDailymaily, cbt, squad, 
-- assumptions: context is read on the fly and unknown during training; answer is contained in the context as a single word or span;
+## Corpora for Reading Comprehension
 
-## Language Model as knowledge bases
+Several large-scale datasets have been developed for training and evaluating reading comprehension systems, including **CNN/DailyMail**, **CBT** (Children's Book Test), and **SQuAD** (Stanford Question Answering Dataset).
 
-- useful for factoid questions
-	- questions easy to formulate a template answer
-- Hallucination is a problem 
-	- can be mitigated somewhat by knowing that the needed data nhas been used to train the LLM
+These datasets share common assumptions:
 
-#### Introduction to Retrieval Augmented generation (RAG)
+- The context passage is read on the fly and is unknown during training
+- The answer is contained within the context as a single word or continuous span
+- The task requires extracting relevant information rather than generating new text
 
-- since it is not feasible for all needed information to be present during training (due to retraining costs)
-- we want to augment the retreival of an LLM by injecting relevant context into the query automatically within a templated prompt.
-- In order to get the relevant information we look to information retrieval techniques.
+## Language Models as Knowledge Bases
+
+Large language models can serve as knowledge bases for answering factoid questions—questions that can be answered with a simple template or direct fact. For example, "Who wrote Pride and Prejudice?" can be answered with "Jane Austen."
+
+However, this approach faces a significant challenge: **hallucination**. Language models may generate plausible-sounding but factually incorrect answers. This risk can be somewhat mitigated by ensuring that the relevant factual information was included in the model's training data, though this is not a complete solution.
+
+### Introduction to Retrieval-Augmented Generation (RAG)
+
+Since it is not feasible for all needed information to be present during training (due to prohibitive retraining costs), a more practical approach is to augment the retrieval capabilities of an LLM by automatically injecting relevant context into the query using a templated prompt. This technique is known as **Retrieval-Augmented Generation (RAG)**.
+
+To retrieve relevant information, we leverage information retrieval techniques, which we'll explore next.
 
 ### Information Retrieval (IR)
+
 - given query order list of documents by relevancy
 - represent terms in documents by TF-IDF
-- relevancy is TF-IDF frequency 
+- relevancy is TF-IDF frequency
 - represent the query and document with a vector size of vocab and tf-idf representations for each do
 
-
 $$score(q,d) = cos(q,d) = \frac{q}{|q|} . \frac{d}{|d|}$$
+
 - BM25 TF-IDF extension
-	- weights the contribution of term and controls importance of documents normalisation
+  - weights the contribution of term and controls importance of documents normalisation
 $$score(D,Q) = \sum^n_{i=1}IDF(q_i). \frac{f(q_i,D).(k_1+1)}{f(q_i,D)+k_1.(1-b+b.\frac{|D|}{avgdl})}$$
+
 - $f(qi,D)$ =frequency of $q_i$ in D
 - $|D|$=num. of words in D
 - $avgdl $= average document length
 - $k1, b$ are hyperparameters $(k1={1.2,...,2.0}; b=0.75)$
 
-
 - The above works when word forms in query are present in documents but this is not always the case
 -  a simple quasi fix is to augment the query with synonyms but this has limits
 - a more robust approach would be to use word embeddings
 
-
 #### Neural Models
+
 - use NN with a single encoder, self-attention sees tokens of the query and the document
 - build repre sensitive to the meaning of both query and document
 
@@ -115,32 +127,34 @@ $$score(D,Q) = \sum^n_{i=1}IDF(q_i). \frac{f(q_i,D).(k_1+1)}{f(q_i,D)+k_1.(1-b+b
 3. joint representation to gen answer
 	1. attention mapping from joint rep
 	2. classify over set of candidate answers
-	
 
 What about for reading comprehension?
 
-- query encoding 
+- query encoding
 - each token of document encoding
 - representation r of the document d = weighted sum of token vectors. weights = models attention
 - joint document query embedding is a non linear combination
 - G(q,d) = tanh(W_1r(d) + W_2r(q))
-
 
 ## Sliding window for span-based QA
 only use information within a sliding window
 find the sliding window through the maximal BoW similarity between answer and window
 
 Logistic Reression SQuAD baseline
+
 - features from the candidates
-	- lengths, bigram freq, word freq, span POS tags, lexical features, dep tree path features
-	- use features for final prediction
+  - lengths, bigram freq, word freq, span POS tags, lexical features, dep tree path features
+  - use features for final prediction
 Neural approach
+
 - FastQA
 	- basic features indicate whether a token in a passage appears in the question
 	- weight features with similarity of the context and query
 
 ![[Pasted image 20250615203953.png]]
+
 - Attention over attention
+
 ![[Pasted image 20250615204032.png]]
 
 ## Multi-step Reasoning
@@ -153,11 +167,11 @@ The model accesses external memory $\mathbf{m} = \{m_1, \dots, m_N\}$ (e.g., sen
 
 Often, **the need for additional reasoning becomes clear only during inference**. Here's an illustrative example:
 
-> **Context**  
-> John went to the hallway.  
+> **Context**
+> John went to the hallway.
 > John put down the football.
 
-> **Question**  
+> **Question**
 > Where is the football?
 
 To answer this, the model must:
@@ -184,24 +198,29 @@ To answer this, the model must:
    $$
 
 This formulation allows the model to simulate **chained reasoning**, where each step's attention is conditioned on prior selections.
+
 ### When to Stop Reasoning?
 
-In multi-step QA, we must decide **when to stop retrieving or attending*. 
+In multi-step QA, we must decide **when to stop retrieving or attending*.
 There are three main strategies for stopping:
 
-1. **Fixed Number of Steps**  
+1. **Fixed Number of Steps**
+
    - The model always performs a pre-set number of reasoning hops (e.g., 2 or 3).
    - Simple, but inflexible — some questions are under-reasoned or over-reasoned.
 
-2. **Special Stop Symbol**  
+2. **Special Stop Symbol**
+
    - Memory includes a synthetic token like `[STOP]`.
    - If the model attends to `[STOP]`, it signals that reasoning is complete.
 
-3. **Learned Stopping Mechanism**  
+3. **Learned Stopping Mechanism**
+
    - A small classifier or gating function is trained to predict whether more steps are needed:
      $$
      p_{\text{stop}} = \sigma(W h_t + b)
      $$
+
    - The model decides at each step whether to continue or terminate.
 
 ### Dataset

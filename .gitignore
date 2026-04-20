@@ -1,0 +1,53 @@
+# PDF Output
+*.pdf
+!*.pdf  # But allow if explicitly added
+
+# Rendering Artifacts
+.render_temp/
+.quarto_temp/
+_output/
+*.log
+render.log
+quarto-render.log
+
+# LaTeX Artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# Quarto Cache
+/.quarto/
+_freeze/
+_site/
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor Files
+.vscode/
+.idea/
+*.sublime-*
+
+# Backup Files
+*.bak
+*.backup
+*~
+
+# Obsidian Files (if you want to exclude)
+.obsidian/
+.trash/

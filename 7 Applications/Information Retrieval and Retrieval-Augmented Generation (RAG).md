@@ -1,38 +1,43 @@
-# Question Answering
+# Information Retrieval and Retrieval-Augmented Generation (RAG)
 
 *Fulfilling the information needs of a user is inherently complex.*
 
-It’s not enough to just “have” the information — we need systems that can retrieve, understand, and contextualize it efficiently. As knowledge grows, storing all relevant information **within the model weights** becomes infeasible — both practically and for **privacy-sensitive applications**. Hence, **retrieval-augmented methods** are increasingly used in modern QA pipelines.
+It's not enough to just "have" the information — we need systems that can retrieve, understand, and contextualize it efficiently. As knowledge grows, storing all relevant information **within the model weights** becomes infeasible — both practically and for **privacy-sensitive applications**. Hence, **retrieval-augmented methods** are increasingly used in modern QA pipelines.
 
 ---
 
-First we take a step back to understand Classical Information Retrieval as it one of the two components of RAG system. 
+First we take a step back to understand Classical Information Retrieval as it is one of the two components of RAG system.
+
 ## Search Engines
 
 We begin with the classical paradigm. The task is straightforward in concept:
 
-**Input**: a query $q$ and a collection of documents $\{d_1, \dots, d_N\}$  
+**Input**: a query $q$ and a collection of documents $\{d_1, \dots, d_N\}$
 **Goal**: return a ranked list of documents $\{d_i\}$ sorted by their relevance to $q$
 
 ### Traditional Pipeline:
 
 1. **Preprocessing**:
+
    - Filter stop words (e.g., “the”, “of”, “is”)
-   - Tokenize and normalize text
+   - Tokenize and normalise text
 
 2. **Inverted Index Construction**:
+
    - Maps each term to the set of documents it appears as an inverted index:
      $$
      (\text{Term}, \text{List of Document IDs})
      $$
 
 3. **Term Weighting with TF-IDF**:
+
    - Emphasises rare but informative terms:
      $$
      \text{TF-IDF}(t, d) = \text{TF}(t, d) \cdot \log\left( \frac{N}{\text{df}(t)} \right)
      $$
 
 4. **Relevance Scoring**:
+
    - Document score; sum of weights of matching terms:
      $$
      \text{Score}(q, d) = \sum_{t \in q \cap d} \text{TF-IDF}(t, d)
@@ -43,6 +48,7 @@ We begin with the classical paradigm. The task is straightforward in concept:
 Despite its historical success, this method hinges on **exact string overlap** — the query and document must share terms verbatim. This is brittle in practice.
 
 To address this, traditional methods introduced:
+
 - **Synonym expansion** (e.g., using WordNet)
 - **Lemmatization** (e.g., “running” → “run”)
 - **Subword tokenization**
@@ -92,6 +98,7 @@ The natural next step: let’s **encode the query and document separately**, and
 - we put the same sigmoid function linear classifier that takes both encoder outputs as input for s(q,d)
 
 We define:
+
 - $q_{\text{vec}} = f(q)$
 - $d_{\text{vec}} = g(d)$
 
@@ -103,11 +110,13 @@ $$
 Typically, both $f$ and $g$ are BERT (or similar) encoders trained with a contrastive loss (e.g., in-batch negatives).
 
 ### Benefits:
+
 - Document embeddings can be **precomputed and indexed** (e.g., with FAISS).
 - Query encoding is **independent of corpus size**.
 - Makes large-scale retrieval practical.
 
 ### Tradeoff:
+
 - Since there’s no joint attention, the model can’t "see" specific query-document term interactions during encoding.
 - Thus, **bi-encoders trade off accuracy for scalability**.
 
@@ -123,12 +132,15 @@ What if we want to keep the efficiency of bi-encoders, but regain *some* of the 
 
 1. Use an inverted index to retrieve a candidate subset of documents (e.g., BM25).
 2. Encode:
+
    - Query: $q = \{q_1, ..., q_m\}$ → token embeddings
    - Document: $d = \{d_1, ..., d_n\}$ → token embeddings
+
 3. For each query token $q_i$, find:
    $$
    \max_j sim(q_i, d_j)
    $$
+
 4. Sum across query tokens:
    $$
    \text{score}(q, d) = \sum_{i=1}^m \max_j sim(q_i, d_j)
@@ -137,6 +149,7 @@ What if we want to keep the efficiency of bi-encoders, but regain *some* of the 
 5. Feed into a scoring function (e.g., sigmoid classifier).
 
 ### Benefits:
+
 - Still allows **precomputed document token embeddings**.
 - Captures **contextual token-level interactions** without recomputing full BERT for each $(q, d)$.
 - Efficient, scalable, and more accurate than basic bi-encoders.
@@ -145,20 +158,23 @@ What if we want to keep the efficiency of bi-encoders, but regain *some* of the 
 
 ## Retrieval-Augmented Generation (RAG)
 
-Large language models (LLMs) are powerful generative tools, but they suffer from two key limitations:  
-(1) They cannot dynamically access new or external knowledge.  
+Large language models (LLMs) are powerful generative tools, but they suffer from two key limitations:
+(1) They cannot dynamically access new or external knowledge.
 (2) Storing all potentially relevant information in the model weights is infeasible — both in terms of scale and for privacy or freshness.
 
 **Retrieval-Augmented Generation (RAG)** addresses these concerns by incorporating an external knowledge source — usually a large text corpus — into the generation pipeline. The result is a hybrid system that can **retrieve and reason**, making it useful for QA, summarization, grounded dialogue, and more.
+
 ### Architecture Overview
 
 RAG combines two components:
 
-1. **Retriever**  
+1. **Retriever**
+
    - Given a query $q$, retrieves a set of top-$k$ relevant documents/passages $\{d_1, ..., d_k\}$ from a corpus $C$
    - Retrieval may be lexical (e.g., BM25) or dense (e.g., using a bi-encoder)
 
-2. **Generator (Reader)**  
+2. **Generator (Reader)**
+
    - Takes the query and retrieved passages as context
    - Generates an answer using an LLM conditioned on the augmented prompt:
      $$
@@ -212,14 +228,14 @@ Some variants score and re-rank generations using a separate model (e.g., rerank
 
 ### Challenges and Tradeoffs
 
-| Factor               | Tradeoff                                 |
-|----------------------|------------------------------------------|
-| Retrieval breadth    | Higher recall vs. noise introduction     |
-| Passage length       | Coherence vs. specificity                |
-| Index size           | Coverage vs. memory footprint            |
-| Latency              | Depth of search vs. response time        |
-| Generator length     | Verbosity vs. token limits               |
-| Evidence grounding   | Faithful use of passages vs. hallucination |
+| Factor | Tradeoff |
+|--------|----------|
+| Retrieval breadth | Recall vs. noise |
+| Passage length | Coherence vs. specificity |
+| Index size | Coverage vs. memory |
+| Latency | Depth vs. speed |
+| Generator length | Verbosity vs. limits |
+| Evidence grounding | Faithful vs. hallucination |
 
 ---
 
@@ -228,7 +244,6 @@ Some variants score and re-rank generations using a separate model (e.g., rerank
 Evaluating QA systems depends on the **format of model output** and the **type of task** (e.g., extractive, ranking, or generative QA). Metrics are chosen based on how well they capture relevance, correctness, and semantic fidelity between system predictions and ground truth (gold) answers.
 
 Evaluation assumes the availability of a **gold dataset**, where each question is paired with one or more correct answers.
-
 
 ### 1. Extractive QA (Span Selection)
 
@@ -250,10 +265,12 @@ The $F_1$ score captures **token-level agreement** between the predicted and gol
 The final score is the mean $F_1$ across all QA pairs.
 
 **Advantages**:
+
 - Simple, interpretable, and works for multiple gold references.
 - Captures partial correctness (some correct tokens → partial credit).
 
 **Limitations**:
+
 - Ignores word order and syntax.
 - Sensitive to small formatting differences (e.g., "5 dollars" vs "five dollars").
 - Does not reward semantically equivalent but lexically different answers.
@@ -272,10 +289,12 @@ MRR rewards systems for returning correct answers **early** in the ranked list.
   $$
 
 **Advantages**:
+
 - Easy to compute and interpret.
 - Sensitive to position of the correct answer.
 
 **Limitations**:
+
 - Only considers the **first correct answer**.
 - Ignores multiple correct answers ranked further down.
 - Discrete — not suitable when partial relevance matters.
@@ -293,10 +312,12 @@ MAP averages precision scores at each position where a relevant item is retrieve
   $$
 
 **Advantages**:
+
 - Takes into account multiple relevant answers.
 - Considers both position and precision cumulatively.
 
 **Limitations**:
+
 - Still binary — assumes all relevant documents are equally good.
 - Does not consider semantic similarity — only exact match to gold set.
 
@@ -327,16 +348,17 @@ BLEU evaluates **precision of $n$-gram overlap** between the generated (hypothes
   $$
 
 **Advantages**:
+
 - Standard in MT and text generation.
 - Works well for tasks with fixed reference phrasing (e.g., translations).
 
 **Limitations**:
+
 - Requires exact $n$-gram match — no synonymy or paraphrasing allowed.
 - Penalizes semantically correct answers with different wording.
 - Sensitive to output length (very short or very long answers skew scores).
 - Repetition of words can artificially inflate scores.
 - Scores saturate quickly — not sensitive to small improvements.
-
 
 #### ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
 
@@ -348,33 +370,39 @@ ROUGE is a family of recall-focused metrics, widely used in **summarization** an
   $$
 
 - **ROUGE-L** (Longest Common Subsequence — LCS):
-- ![[Pasted image 20250618143519.png]]
+
+![[Pasted image 20250618143519.png]]
+
   - Measures how much of the reference order is preserved in the output.
   - Recall:
     $$
     R_{\text{LCS}} = \frac{\text{LCS}(X, Y)}{|Y|}
     $$
+
   - Precision:
     $$
     P_{\text{LCS}} = \frac{\text{LCS}(X, Y)}{|X|}
     $$
+
   - F-measure:
     $$
     F_{\text{LCS}} = \frac{(1 + \beta^2) \cdot R_{\text{LCS}} \cdot P_{\text{LCS}}}{R_{\text{LCS}} + \beta^2 \cdot P_{\text{LCS}}}
     $$
 
 **Advantages**:
+
 - Widely used in summarization and QA generation benchmarks.
 - Captures some degree of fluency and order preservation.
 
 **Limitations**:
+
 - Still surface-form based — no credit for semantically similar words.
 - Sensitive to paraphrasing and grammatical variation.
 - Not suitable for very short generations (unstable for few tokens).
 
 #### BERTScore
 
-BERTScore leverages **contextualized token embeddings** to compute semantic similarity between hypothesis and reference text.
+BERTScore leverages **contextualised token embeddings** to compute semantic similarity between hypothesis and reference text.
 
 - For each token in hypothesis $x$ and reference $\hat{x}$, compute contextual embeddings using a pretrained BERT model.
 
@@ -403,24 +431,25 @@ BERTScore leverages **contextualized token embeddings** to compute semantic simi
 - Final score (originally in $[-1, 1]$) is linearly mapped to $[0, 1]$.
 
 **Advantages**:
+
 - Captures **semantic similarity** beyond lexical overlap.
 - Tolerant to paraphrasing and synonymy.
 - Outperforms BLEU/ROUGE on correlation with human judgment.
 
 **Limitations**:
+
 - Requires model inference (slow at scale).
 - Sensitive to embedding model choice.
 - Still local — may miss global meaning inconsistencies.
 - More difficult to interpret than discrete metrics.
 
-
 ## Summary of Evaluation Metrics
 
-| Metric      | Output Type     | Captures                  | Strengths                              | Limitations                                  |
-|-------------|------------------|---------------------------|-----------------------------------------|----------------------------------------------|
-| $F_1$        | Span QA          | Token-level overlap       | Simple, partial credit                  | No order or semantic understanding           |
-| MRR          | Ranked QA        | First relevant rank       | Sensitive to top-ranked correctness     | Ignores all but first relevant hit           |
-| MAP          | Ranked QA        | Precision over relevance  | Considers multiple relevant docs        | Binary relevance only                        |
-| BLEU         | Generated text   | $n$-gram precision        | Standard in MT                          | Penalizes paraphrase, favors brevity         |
-| ROUGE        | Summarization, QA | $n$-gram recall, LCS     | Recall-focused, widespread usage        | Requires surface match                       |
-| BERTScore    | Generated text   | Semantic token similarity | Embedding-aware, paraphrase-tolerant    | Slower, harder to interpret                  |
+| Metric | Type | Captures | Strengths | Limitations |
+|--------|------|----------|-----------|-------------|
+| $F_1$ | Span QA | Token overlap | Simple, partial credit | No semantics |
+| MRR | Ranked | First rank | Top-sensitive | Ignores other hits |
+| MAP | Ranked | Precision | Multi-doc aware | Binary only |
+| BLEU | Generated | $n$-gram precision | MT standard | Penalizes paraphrase |
+| ROUGE | Summary | $n$-gram recall | Widespread | Surface match |
+| BERTScore | Generated | Semantic similarity | Paraphrase-tolerant | Slower |
