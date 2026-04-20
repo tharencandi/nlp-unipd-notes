@@ -1,0 +1,16 @@
+# GitHub Pages Configuration
+# This ensures markdown files are accessible as static files
+
+# Don't process markdown files with Jekyll
+# We want to serve them as raw files for our JavaScript to fetch
+markdown: kramdown
+exclude:
+  - README.md
+  - render.sh
+  - pandoc-reformat.py
+  - references.bib
+
+# Include all .md files
+include:
+  - "*.md"
+  - "**/*.md"
