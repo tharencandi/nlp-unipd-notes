@@ -38,8 +38,11 @@ and syntax grammar categories ( NP, N, V, S) as internal nodes (CFG)
 	- conjunctions
 
 ### Representation
+
 each word 1 to n in sentence has edge (word, head, relation)
+
 ![[Pasted image 20250615191302.png]]
+
 ![[Pasted image 20250615191318.png]]
 
 ### Techniques
@@ -86,7 +89,9 @@ projective tree:
 - given a head and a dependent, there is a path to every node between h and d
 - Projective: "Yesterday Lucia at a pizza which was vegeterian"
 - Not projective: "Lucia ate a pizza yesterday which was vegeterian"
+
 ![[Pasted image 20250609151421.png]]
+
 ![[Pasted image 20250609151435.png]]
 
 **Algorithm** ->  in exam
@@ -344,12 +349,12 @@ Use a **deep BiLSTM encoder** + **biaffine scoring mechanism** to model head–d
 
 ## Summary of Comparative Performance
 
-| Model                          | Type             | Performance (UAS/LAS) | Notes                    |
-|-------------------------------|------------------|------------------------|--------------------------|
-| Chen & Manning (2014)         | Transition-based | Worst                  | Feedforward + hand features |
-| K&G Graph-based (2016)        | Graph-based      | Second worst           | BiLSTM, margin loss      |
-| K&G Transition-based (2016)   | Transition-based | Second best            | BiLSTM, simpler scoring  |
-| Dozat & Manning (2017)        | Graph-based      | Best                   | Biaffine scoring         |
+| Model | Type | Performance | Notes |
+|-------|------|-------------|-------|
+| Chen & Manning (2014) | Transition | Worst | Feedforward |
+| K&G Graph (2016) | Graph | 2nd worst | BiLSTM, margin |
+| K&G Transition (2016) | Transition | 2nd best | BiLSTM |
+| Dozat & Manning (2017) | Graph | Best | Biaffine |
 
 ---
 

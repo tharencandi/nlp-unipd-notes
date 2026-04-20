@@ -257,11 +257,11 @@ Reference:
 
 ## Summary
 
-| Approach                     | Strengths                                     | Weaknesses                               |
-|-----------------------------|-----------------------------------------------|-------------------------------------------|
-| Lexicon-based               | Interpretable, fast, no training data needed  | No syntax, poor at irony/negation         |
-| Semantic Axis               | Unsupervised domain adaptation                | Sensitive to seed choice                  |
-| Label Propagation           | Data-efficient, smooth generalization         | Graph construction and seed tuning needed |
-| Supervised Lexicon Learning | Data-driven, statistically grounded           | Needs annotated data                      |
-| Entity Sentiment            | Fine-grained control, contextualised          | Requires NER, coref, contextual models    |
-| Compositional Models        | Phrase-level semantics, captures modifiers    | Requires syntactic parses, complex models |
+| Approach | Strengths | Weaknesses |
+|----------|-----------|------------|
+| Lexicon-based | Interpretable, fast, no training needed | No syntax, poor at irony |
+| Semantic Axis | Unsupervised adaptation | Sensitive to seed choice |
+| Label Propagation | Data-efficient, smooth | Graph construction needed |
+| Supervised Lexicon | Data-driven, statistical | Needs annotated data |
+| Entity Sentiment | Fine-grained, contextualised | Requires NER, coref |
+| Compositional | Phrase-level semantics | Requires parses |

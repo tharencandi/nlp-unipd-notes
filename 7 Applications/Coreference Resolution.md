@@ -348,10 +348,12 @@ To compute *m*() and *c*() (mention probability and antecedent compatibility), w
 
 -   Thus, a span *i* combines the representation of these three token-level embeddings:
     `g_i = [h_START(i) ; h_END(i) ; h_ATT(i)]`
+
 ![[Pasted image 20250615202433.png]]
 
 -   **Example:** Consider the computation of antecedents for the span "the company". The model would calculate scores `s("the company", j)` for all preceding spans *j*.
 -   **No Antecedent ($\epsilon$):** The model also considers a special "null" antecedent, $\epsilon$, which represents the case where the current span does not corefer with any preceding mention (i.e., it's a new entity).
 
 ![[Pasted image 20250615202454.png]]
+
 Given all the normalised scores, an antecedent is selected for each mention. Finally, a **transitive closure** of all these selected antecedent-mention pairs is performed to derive the final coreference clusters.

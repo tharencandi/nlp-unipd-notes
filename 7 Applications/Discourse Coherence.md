@@ -120,8 +120,8 @@ Penn Discourse Treebank (PDTB)  annotations are based on discourse connectives, 
 - first, discourse connectives (because, although, when, since, or as a result) are identified
 - then the connected sentences are marked with the relation  (sometimes also adjacent sentences that are not linked by discourse connectives)
 - 18,000 explicit and 16,000 implicit relations; only pairwise annotations, no global tree structure
-- Example: Arg1 [Jewelry displays in department stores were often cluttered and uninspired. And the merchandise was, well, fake.] As a result, Arg2 [marketers of faux gems steadily lost space in department stores to more fashionable rivals—cosmetics makers.]
-- Example: [In July, the Environmental Protection Agency imposed a gradual ban on virtually all uses of asbestos.] (implicit=as a result) [By 1997, all uses of cancer-causing asbestos will be outlawed.]
+- Example: Arg1 [Jewelry displays in department stores were often cluttered and uninspired. And the merchandise was, well, fake.] As a result, Arg2 [marketers of faux gems steadily lost space in department stores to more fashionable rivals.]
+- Example: [In July, the Environmental Protection Agency imposed a gradual ban on virtually all uses of asbestos.] (implicit connection: as a result) [By 1997, all uses of cancer-causing asbestos will be outlawed.]
 
 ## RST Discourse Parsing
 

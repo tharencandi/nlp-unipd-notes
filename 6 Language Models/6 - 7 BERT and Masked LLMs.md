@@ -160,6 +160,7 @@ Say we need to update a matrix $W: n \times m$
 
 - $W$ can be approximated by $AB$ (Low Rank Approximation) of size $A: N \times r$ and $B: r \times d$
 - We apply gradient descent to A and B and then we update $W=W+AB$
+
 ![[Pasted image 20250615190802.png]]
 
 ### Sequence Classification

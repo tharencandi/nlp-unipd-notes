@@ -228,14 +228,14 @@ Some variants score and re-rank generations using a separate model (e.g., rerank
 
 ### Challenges and Tradeoffs
 
-| Factor               | Tradeoff                                 |
-|----------------------|------------------------------------------|
-| Retrieval breadth    | Higher recall vs. noise introduction     |
-| Passage length       | Coherence vs. specificity                |
-| Index size           | Coverage vs. memory footprint            |
-| Latency              | Depth of search vs. response time        |
-| Generator length     | Verbosity vs. token limits               |
-| Evidence grounding   | Faithful use of passages vs. hallucination |
+| Factor | Tradeoff |
+|--------|----------|
+| Retrieval breadth | Recall vs. noise |
+| Passage length | Coherence vs. specificity |
+| Index size | Coverage vs. memory |
+| Latency | Depth vs. speed |
+| Generator length | Verbosity vs. limits |
+| Evidence grounding | Faithful vs. hallucination |
 
 ---
 
@@ -445,11 +445,11 @@ BERTScore leverages **contextualised token embeddings** to compute semantic simi
 
 ## Summary of Evaluation Metrics
 
-| Metric      | Output Type     | Captures                  | Strengths                              | Limitations                                  |
-|-------------|------------------|---------------------------|-----------------------------------------|----------------------------------------------|
-| $F_1$        | Span QA          | Token-level overlap       | Simple, partial credit                  | No order or semantic understanding           |
-| MRR          | Ranked QA        | First relevant rank       | Sensitive to top-ranked correctness     | Ignores all but first relevant hit           |
-| MAP          | Ranked QA        | Precision over relevance  | Considers multiple relevant docs        | Binary relevance only                        |
-| BLEU         | Generated text   | $n$-gram precision        | Standard in MT                          | Penalizes paraphrase, favors brevity         |
-| ROUGE        | Summarization, QA | $n$-gram recall, LCS     | Recall-focused, widespread usage        | Requires surface match                       |
-| BERTScore    | Generated text   | Semantic token similarity | Embedding-aware, paraphrase-tolerant    | Slower, harder to interpret                  |
+| Metric | Type | Captures | Strengths | Limitations |
+|--------|------|----------|-----------|-------------|
+| $F_1$ | Span QA | Token overlap | Simple, partial credit | No semantics |
+| MRR | Ranked | First rank | Top-sensitive | Ignores other hits |
+| MAP | Ranked | Precision | Multi-doc aware | Binary only |
+| BLEU | Generated | $n$-gram precision | MT standard | Penalizes paraphrase |
+| ROUGE | Summary | $n$-gram recall | Widespread | Surface match |
+| BERTScore | Generated | Semantic similarity | Paraphrase-tolerant | Slower |

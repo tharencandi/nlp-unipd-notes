@@ -7,7 +7,7 @@ set -e  # Exit on error
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR"
 
-OUTPUT_PDF="NLP-Course-Notes.pdf"
+OUTPUT_PDF="NLP-Course-Notes-CS-2025.pdf"
 TEMP_DIR=".render_temp"
 IMAGES_DIR="images"
 
@@ -50,9 +50,9 @@ process_file() {
     done
     
     # Process the file with multiple passes for better handling
-    # Pass 1: Convert Obsidian syntax with image width constraints
-    sed -e "s|!\[\[Pasted image \([^]]*\)\.png\]\]|![](${img_prefix}images/pasted-image-\1.png){width=90%}|g" \
-        -e "s|!\[\[Pasted image \([^]]*\)\.jpg\]\]|![](${img_prefix}images/pasted-image-\1.jpg){width=90%}|g" \
+    # Pass 1: Convert Obsidian syntax with image width constraints and centering
+    sed -e "s|!\[\[Pasted image \([^]]*\)\.png\]\]|![](${img_prefix}images/pasted-image-\1.png){width=90% fig-align=\"center\"}|g" \
+        -e "s|!\[\[Pasted image \([^]]*\)\.jpg\]\]|![](${img_prefix}images/pasted-image-\1.jpg){width=90% fig-align=\"center\"}|g" \
         -e 's/\[\[\([^]|]*\)|\([^]]*\)\]\]/\2/g' \
         -e 's/\[\[\([^]]*\)\]\]/\1/g' \
         -e 's/^---$/\*\*\*/g' \
@@ -105,6 +105,7 @@ cd "$TEMP_DIR"
 
 # Create ordered list of files
 pandoc metadata.yaml \
+    "0 Preface.md" \
     "1 2 3 4 The Basics/2 Elements of Linguistics.md" \
     "1 2 3 4 The Basics/3 Learning Tasks, Pre-processing and Data Collection.md" \
     "1 2 3 4 The Basics/4 Text-Processing.md" \
@@ -131,7 +132,7 @@ pandoc metadata.yaml \
     "7 Applications/Sequence Labelling.md" \
     -o "../$OUTPUT_PDF" \
     --from gfm+wikilinks_title_after_pipe \
-    --wrap=none \
+    --wrap=auto \
     --resource-path=".:./images" \
     --pdf-engine=xelatex \
     --toc \
@@ -143,8 +144,20 @@ pandoc metadata.yaml \
     -V linkcolor=blue \
     -V urlcolor=blue \
     -V toccolor=black \
+    -V tables=true \
     --highlight-style=tango \
     -V colorlinks=true \
+    -V header-includes="\usepackage{longtable,booktabs,array}" \
+    -V header-includes="\usepackage{calc}" \
+    -V header-includes="\usepackage{caption}" \
+    -V header-includes="\captionsetup[table]{skip=5pt}" \
+    -V header-includes="\usepackage{float}" \
+    -V header-includes="\makeatletter" \
+    -V header-includes="\def\fps@figure{H}" \
+    -V header-includes="\makeatother" \
+    -V header-includes="\let\origfigure\figure" \
+    -V header-includes="\let\endorigfigure\endfigure" \
+    -V header-includes="\renewenvironment{figure}[1][2]{\expandafter\origfigure\expandafter[H]\centering}{\endorigfigure}" \
     2>&1 | tee ../render.log
 
 cd ..

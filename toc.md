@@ -4,8 +4,9 @@ toc: true
 
 ## Table of Contents
 
+[[0 Preface]]
+
 ### The Basics
-[[1 NLP - Home page]]
 [[2 Elements of Linguistics]]
 [[3 Learning Tasks, Pre-processing and Data Collection]]
 [[4 Text-Processing]]

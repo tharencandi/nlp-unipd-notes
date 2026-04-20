@@ -40,6 +40,7 @@ https://lena-voita.github.io/nlp_course.html
 	1. The vector h is passed through a **linear layer** to produce a vector of size equal to the vocabulary $|\mathcal{V}|$
 3. Softmax
 	1. transform into a **probability distribution** $P(w_{t+1} \mid \text{context})$.
+
 ![[Pasted image 20250414120937.png]]
 
 ## Inference
