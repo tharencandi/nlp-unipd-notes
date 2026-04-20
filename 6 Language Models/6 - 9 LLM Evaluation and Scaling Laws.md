@@ -1,29 +1,26 @@
+# LLM Evaluation and Scaling Laws
 
 ## Language Model Evaluation
+
 **For both Statistical and Neural Language Models**
-#### Perplexity
 
-How well a probability model predicts a sample.
--> how well an LLM predicts a sequence of text. 
+### Perplexity
 
-average negative log-likleyhood (cross entropy) of the predicted words in a sequence, exponentiated.
+How well a probability model predicts a sample, i.e., how well an LLM predicts a sequence of text.
 
--> 
-The perplexity (sometimes abbreviated as PP or PPL) of a language model on a test set is the inverse probability of the test set (one over the probability of the test set), normalized by the number of words (or tokens). For this reason it’s sometimes called the per-word or per-token perplexity.
+average negative log-likelihood (cross entropy) of the predicted words in a sequence, exponentiated.
 
-a **High Perplexity** corresponds to low probabilities across the distribution of predictions.
+The perplexity (sometimes abbreviated as PP or PPL) of a language model on a test set is the inverse probability of the test set (one over the probability of the test set), normalized by the number of words (or tokens). For this reason it's sometimes called the per-word or per-token perplexity.
 
-a Low **Perplexity** correwsponds to high probabilites.
+A **High Perplexity** corresponds to low probabilities across the distribution of predictions.
+
+A **Low Perplexity** corresponds to high probabilities.
+
 - the model is 'confident'
 
-Perplexity must be paired with specific evaluation metrics for down stream tasks. Low perplexity does not imply good performance downstream. 
-- Definition
-- Why it works
-- Examples
+Perplexity must be paired with specific evaluation metrics for downstream tasks. Low perplexity does not imply good performance downstream.
 
-# Perplexity as Weighted Average Branching Factor
-
-## 3.3.1 Perplexity as Weighted Average Branching Factor
+### Perplexity as Weighted Average Branching Factor
 
 - Perplexity = **weighted average branching factor** of a language.
 - Branching factor = number of possible next words.
@@ -53,20 +50,26 @@ $$
 *(Note: Original text's calculation $0.527^{-1} = 1.89$ for Eq. 3.21 appears inconsistent with $0.8^5$. Using $0.8^{-1} = 1.25$ here.)*
 
 **Conclusion:** Lower perplexity (1.25 vs 3) indicates a better fit to the data when the model assigns higher probabilities to the observed sequence.
-#### Intrinsic vs Extrinsic Evaluation
+
+## Intrinsic vs Extrinsic Evaluation
+
 - Intrinsic: perplexity, cloze tests, contrastive scoring
 - Extrinsic: downstream performance
-#### Linguistic Probing Tasks
+
+## Linguistic Probing Tasks
+
 - Syntactic agreement
 - Negation, coreference, etc.
 
-#### Known Limitations
+## Known Limitations
+
 - Overfitting to training data
 - Incomparability across datasets
 
-# Scaling Laws of LLMS
+## Scaling Laws of LLMs
 If we were to build an LLM, what could we optimise for (given a
 fixed budget)?
+
 - What and how much data to train on
 - Model size (number of parameters)
 - What learning tasks they have been (pre)trained on and how much computing power has been used

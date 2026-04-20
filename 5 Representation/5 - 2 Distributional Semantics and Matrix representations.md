@@ -1,16 +1,18 @@
+# Distributional Semantics and Matrix Representations
+
 *How to compare word meanings based on observed usage in vector space.*
 
 **Distributional Hypothesis**: *The more contexts two words share, the more similar they are.*
 
-*"a word is characterised by the company it keeps" (J.R. Firth)*
+*"A word is characterised by the company it keeps."* (J.R. Firth)
 
 **Types of Context:** "context" can be defined in various ways:
 - **Document-level:** Co-occurrence within the same document.
 - **Window-based:** Co-occurrence within a short sequence of words.
 - **Syntactic:** Grammatical relations (e.g., subject-verb, verb-object).
 
-**Vector space models (VSMS)** capture distributional semantics in high dimensional space. 
-- Representations include term-document matrix, term-context (co occurence) matrix, syntatic co-occurence matrix.
+**Vector space models (VSMS)** capture distributional semantics in high dimensional space.
+- Representations include term-document matrix, term-context (co-occurrence) matrix, syntactic co-occurrence matrix.
 - Weighting schemes include raw counts, TF, IDF, TF-IDF, PMI, PPMI.
 
 Once we have established mechanisms for VSMS we can compute similarity scores with cosine similarity, euclidean distance, Manhattan distance...
@@ -39,7 +41,7 @@ where $N$ is the dimensionality of the vector $\mathbf{v}$, and $v_i$ is the $i$
 - **Range:** The cosine similarity value ranges from -1 to 1 (inclusive):
 $\qquad -1 \le \text{cosine}(\mathbf{v}, \mathbf{w}) \le 1$
 
-# BoW and T-F representations
+## BoW and T-F representations
 
 1. decide size of vector and token for each position
 	1. analyse corpus to extract vocabulary (CountVectorizer SciKit-learn)
@@ -51,63 +53,65 @@ $\qquad -1 \le \text{cosine}(\mathbf{v}, \mathbf{w}) \le 1$
 3. compute BoW representation (CountVectorizer transform method)
 4. Compute similarities between texts with **dot product** or **cosine similarity**
 
-**Properties:** 
+**Properties:**
 - Simple to compute.
-- Discard position in sentence (n-grams are a quasi-solution. 
+- Discard position in sentence (n-grams are a quasi-solution.
 
-# One-hot
+## One-hot
 Vectorial representation of a single word within a BoW context -
-where only one word (index) has a non-zero value in the vector. 
-**Property:** 
-- sparse 
+where only one word (index) has a non-zero value in the vector.
+**Property:**
+- sparse
 - all words are equally dissimilar to each other when taking the dot product. (not useful )
 
-# Co-occurrence matrices
+## Co-occurrence matrices
 
-#### Term-Document Matrix
+### Term-Document Matrix
 
 - Directly embodies the distributional hypothesis.
 	- Context as documents
 - Treat each row as a vector in the document space
-- compute cosine similarities between vectors - words that appear in similar documents are said to be semantically similar. 
+- compute cosine similarities between vectors - words that appear in similar documents are said to be semantically similar.
 
 Let
-- i corresponds to the text/document 
+- i corresponds to the text/document
 - j corresponds to the jth word in the vocabulary (built from all documents)
 - L = window size (hyper parameter)
-Then term-matrix(i,j) = 
+Then term-matrix(i,j) =
 - Count of word in document with window size L
 	- bad for stopwords (too much impact)
 
 With a Term-Document Matrix we can compute:
-- **TF with log scaling:$\qquad \text{tf}_{t,d} = \log_{10}(\text{count}(t, d) + 1)$ 
-- **IDF (Inverse Document Frequency):** $\qquad \text{idf}_{t} = \log_{10}\left(\frac{N}{\text{df}_t}\right)$ 
+- **TF with log scaling:$\qquad \text{tf}_{t,d} = \log_{10}(\text{count}(t, d) + 1)$
+- **IDF (Inverse Document Frequency):** $\qquad \text{idf}_{t} = \log_{10}\left(\frac{N}{\text{df}_t}\right)$
 	- weights higher terms that are rare amongst documents
 - **TF-IDF:** The TF-IDF weight of a term in a document is the product of its TF and IDF $$\qquad w_{t,d} = \text{tf}_{t,d} \times \text{idf}_{t}$$
-#### Term-Term Matrix
+
+### Term-Term Matrix
 
 A more *directly contextual* representation. Rather than *Context as documents*, Context is framed as *Neighbouring words*.
 - Treat each row as a vector in the space of *other words*
-- words that appear with the same neighbouring words are considered more semantically similar. 
+- words that appear with the same neighbouring words are considered more semantically similar.
 
 With Term-Term matrices - count of words within window size of each-other - We use **PPMI**.
-**Context:** 
-- Term-term matrices represent the co-occurrence counts of words within a specific context window. 
-- **Problem with Raw Counts:** Using raw co-occurrence counts can be problematic for frequent but less informative words (stop words), as they tend to have high co-occurrence with many other words, thus dominating the similarity measures. 
+**Context:**
+- Term-term matrices represent the co-occurrence counts of words within a specific context window.
+- **Problem with Raw Counts:** Using raw co-occurrence counts can be problematic for frequent but less informative words (stop words), as they tend to have high co-occurrence with many other words, thus dominating the similarity measures.
 
-**PMI (Pointwise Mutual Information):** 
+**PMI (Pointwise Mutual Information):**
 - PMI measures how often two events $w$ (word) and $c$ (context word) occur together, compared to what we would expect if they were statistically independent. **Formula:** $$\qquad \text{PMI}(w, c) = \log_2 \left( \frac{P(w, c)}{P(w)P(c)} \right)$$
-**Range of PMI:** 
+**Range of PMI:**
 - PMI values range from negative infinity to positive infinity.
-**PPMI (Positive Pointwise Mutual Information):** 
-- To address the issue of negative PMI values (which can be unstable or difficult to interpret as similarity), PPMI restricts the PMI values to be non-negative. 
-**Formula:** 
-$$\qquad \text{PPMI}(w, c) = \max \left( \log_2 \left( \frac{P(w, c)}{P(w)P(c)} \right), 0 \right)$$ 
+**PPMI (Positive Pointwise Mutual Information):**
+- To address the issue of negative PMI values (which can be unstable or difficult to interpret as similarity), PPMI restricts the PMI values to be non-negative.
+**Formula:**
+$$\qquad \text{PPMI}(w, c) = \max \left( \log_2 \left( \frac{P(w, c)}{P(w)P(c)} \right), 0 \right)$$
 
 **Count-Based Embeddings:** PPMI is a technique used in count-based word embeddings, where the entries of the word vectors are based on the PPMI values between the target word and its context words.
 
-**Problem:** generates long vectors the size of the vocabulary. 
-# Latent semantics 
+**Problem:** generates long vectors the size of the vocabulary.
+
+## Latent semantics
 
 **Motivation**: The original term-document matrix $C$ (representing word occurrences in documents) often suffers from high dimensionality, noise, redundancy, and an inability to directly capture underlying semantic relationships (synonymy, polysemy). Approximating $C$ with a lower-rank matrix $\hat{C}_k$ aims to:
 * **Reduce Dimensionality:** Obtain compact vector representations.

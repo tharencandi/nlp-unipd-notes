@@ -1,3 +1,5 @@
+# Sentiment Analysis
+
 ## Utility
 
 Sentiment Analysis is the task of identifying the emotional valence or subjective attitude in text. It is widely used in NLP and computational social science for modeling public opinion, emotional state, and attitudes.
@@ -28,12 +30,15 @@ Lexicon-based sentiment analysis reduces task complexity by using predefined wor
 Annotation schemes and lexicon design are guided by emotion theories:
 
 1. **Ekman (1972)** — Six basic emotions:
+
    - Surprise, Happiness, Anger, Fear, Disgust, Sadness
 
 2. **Plutchik’s Wheel of Emotions** — Eight emotions in opposing pairs:
+
    - Joy–Sadness, Trust–Disgust, Fear–Anger, Surprise–Anticipation
 
 3. **VAD Dimensions**:
+
    - **Valence**: Pleasantness of the stimulus
    - **Arousal**: Intensity of the emotion
    - **Dominance**: Perceived control over the emotion
@@ -43,17 +48,21 @@ Annotation schemes and lexicon design are guided by emotion theories:
 ## Sentiment Lexicons
 
 ### Binary Lexicons:
+
 - **General Inquirer (1967)** — 1915 positive, 2291 negative words
 - **MPQA Subjectivity Lexicon (2005)** — includes subjective, positive, and negative words
 
 ### Emotion-Oriented Lexicons:
+
 - **NRC Word-Emotion Association Lexicon (EmoLex, 2013)** — 14k words annotated for Plutchik emotions
 
 ### Multi-Category Lexicon:
+
 - **LIWC (2007)** — 73 lexical categories, 2300+ words
   - Includes sentiment and cognitive/behavioral categories (e.g., inhibition, sadness, anger)
 
 ### Real-Valued Lexicons:
+
 - **NRC VAD Lexicon (2018)** — assigns valence, arousal, and dominance scores to 20k words
   - Annotation via Best-Worst Scaling:
     $$
@@ -74,6 +83,7 @@ In long documents, a BoW model combined with lexicon lookup may suffice under th
   - Local compositionality
 
 ### Solutions:
+
 - Use *n-grams* to capture modifiers and negations
 - Parse **syntax trees** to detect negation-object relationships
 - Preprocessing like lemmatization and POS tagging may improve accuracy
@@ -95,10 +105,12 @@ Lexicons can also be learned automatically from data, allowing domain adaptation
   $$
   V^+ = \frac{1}{n} \sum_{i=1}^n E(w_i^+), \quad V^- = \frac{1}{n} \sum_{i=1}^n E(w_i^-)
   $$
+
 - Sentiment axis:
   $$
   V_{\text{axis}} = V^+ - V^-
   $$
+
 - Scoring a new word $w$:
   $$
   \text{score}(w) = \cos(E(w), V_{\text{axis}}) = \frac{E(w) \cdot V_{\text{axis}}}{\|E(w)\| \|V_{\text{axis}}\|}
@@ -114,7 +126,8 @@ Lexicons can also be learned automatically from data, allowing domain adaptation
 Graph-based lexicon induction using seed word labels and word similarity:
 
 1. **Graph Construction**:
-- given word embeddings, build a weighted graph by connecting edge word to k nearest neighbours with cosine similarity. 
+
+- given word embeddings, build a weighted graph by connecting edge word to k nearest neighbours with cosine similarity.
 
    - Nodes = words
    - Edges = top-$k$ most similar words (based on cosine or alternative metrics)
@@ -123,22 +136,27 @@ Graph-based lexicon induction using seed word labels and word similarity:
        - Avoid “but” conjunctions (negative contrast)
        - Morphological negation
        - Thesaurus-based expansion
+
 1. define a seed set
 	1. positive and negative seed words.
 2. **Propagation**:
+
    - Random walks from seed nodes
    - Probability of moving to a neighbor $\propto$ edge weight
 
 1. **Scoring**:
+
 	- polarity score for a seed set is proportional to the probability of a random walk from the seed set landing on that word.
    - Sentiment score = proportion of walks reaching a word from positive seeds
-   - 
+   -
+
    - Confidence to each score
 	   - scores are influenced by initial seed set
 	   - Repeat with varied seed sets for confidence estimates
 	   - standard deviation of bootstrap sampled polarity scores gives a confidence measure.
 
 **Applications**:
+
 - Online opinion clustering
 - Inducing sentiment for unseen or rare words
 
@@ -153,6 +171,7 @@ Given labeled text (e.g., reviews with ratings), derive lexicon scores:
   $$
   P(w \mid c) = \frac{\text{count}(w, c)}{\sum_{w'} \text{count}(w', c)}
   $$
+
 - Normalize with:
   $$
   \text{PottsScore}(w) = \frac{P(w \mid c)}{\sum_{c'} P(w \mid c')}
@@ -167,13 +186,19 @@ Given labeled text (e.g., reviews with ratings), derive lexicon scores:
 Lexicon-derived features can be plugged into machine learning pipelines:
 
 1. **Binary presence**:
+
    - 1 if any word in doc is in positive or negative lexicon
+
 2. **Count-based**:
+
    - Number of lexicon-matching words per class
+
 3. **Weighted sum**:
+
    - Sum of sentiment scores for all matching words
 
 These features can be combined with:
+
 - Bag-of-Words or TF-IDF
 - Word embeddings
 - Neural representations
@@ -188,14 +213,17 @@ Assess the sentiment **towards a specific entity** rather than the full document
 2. Extract **contextualized embeddings** (e.g., BERT) for all mentions.
 3. Compute average embedding $\bar{E}$ per entity.
 4. Train regression models to map $\bar{E}$ to VAD scores.
+
    - As in Field & Tsvetkov (2019):
      - One model each for valence, arousal, and dominance
 
 5. At inference:
+
    - Predict VAD for each entity mention
    - Aggregate across document for final score
 
 Applications:
+
 - Detecting stance toward political figures
 - Tracking sentiment shifts in multi-character narratives
 
@@ -216,11 +244,13 @@ Phrase- and sentence-level sentiment often requires **compositional models**, es
     $$
 
 Benefits:
+
 - Models fine-grained interactions
 - Captures "not good" ≠ "good"
 - Enables sentence-level and phrase-level sentiment parsing
 
 Reference:
+
 - [Socher et al., EMNLP 2013](https://nlp.stanford.edu/~socherr/EMNLP2013_RNTN.pdf)
 
 ---

@@ -1,10 +1,15 @@
-Core linguistic terminology and concepts that will be used in the course.
-# Levels of Linguistics
+# Elements of Linguistics
 
-Overview from Lecture 2. These definitions will continue to come up in later sections..
+Core linguistic terminology and concepts that will be used in the course.
+
+## Levels of Linguistics
+
+Overview from Lecture 2. These definitions will continue to come up in later sections.
 
 Form → Meaning Pipeline
+
 ## Phonology
+
 - **Definition**: Study of the sound systems of language.
 - **NLP Applications**:
   - Automatic Speech Recognition (ASR)
@@ -13,6 +18,7 @@ Form → Meaning Pipeline
 - **Note**: Crucial for tasks that involve converting between textual and spoken forms.
 
 ## Morphology
+
 - **Definition**: Study of the internal structure of words.
 - **Core Concepts**:
   - **Morpheme**: The smallest unit of meaning.
@@ -28,6 +34,7 @@ Form → Meaning Pipeline
   - Finite-State Automata used for rule-based morphological analysis
 
 ## Syntax
+
 - **Definition**: Study of how words combine to form sentences.
 - **Tools & Techniques**:
   - **POS Tagging**: Assigning part-of-speech tags (e.g., Penn Treebank tagset)
@@ -39,6 +46,7 @@ Form → Meaning Pipeline
   - Parsing input from noisy or ill-formed text
 
 ## Semantics
+
 - **Definition**: Study of meaning in language.
 - **Key Concepts**:
   - **Lexeme**: Group of word forms sharing core meaning
@@ -62,7 +70,8 @@ Form → Meaning Pipeline
   - Semantic role labeling (SRL)
   - Machine translation
 
-### More on Semantics...
+### Extended Semantic Concepts
+
 - We have seen synonymity
 - Words are related in different ways
 - Propositional meaning equivalence: if replacing one word with another, the truth condition of any sentence does not change
@@ -70,12 +79,13 @@ Form → Meaning Pipeline
 - Co-participation in an event: coffee and cup
 - semantic field: house (door, roof, kitchen, family, bed)
 - semantic frame: a set of words that denote perspectives in an event (buyer, seller)
-- connotation: a set of words referring to the same emotion (positive, i.e. happy) 
-	- valence - the pleasantness of the stimulus (satisfied, annoyed) 
-	- arousal - the intensity of emotion (excited, calm) 
+- connotation: a set of words referring to the same emotion (positive, i.e. happy)
+	- valence - the pleasantness of the stimulus (satisfied, annoyed)
+	- arousal - the intensity of emotion (excited, calm)
 	- dominance - how submissive (anger, boredom)
 
 ## Pragmatics
+
 - **Definition**: Study of meaning in context.
 - **Key Elements**:
   - **Speech Acts**: Communicative functions like requesting, informing
@@ -86,6 +96,7 @@ Form → Meaning Pipeline
 ## Utility of Linguistics in NLP
 
 ### Traditional vs Neural NLP
+
 - **Traditional NLP**:
   - Heavily reliant on linguistic models and rule-based systems
 - **Neural NLP**:
@@ -97,9 +108,11 @@ Form → Meaning Pipeline
 ---
 
 ## Tags
+
 - #NLP #Linguistics #Morphology #Phonology #Syntax #Semantics #Pragmatics #Parsing
 
 ---
 
 ### References
+
 - Course Slides by Giovanni Da San Martino: NLP-elements-of-linguistics.pdf
